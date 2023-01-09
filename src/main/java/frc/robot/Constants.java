@@ -21,7 +21,9 @@ public final class Constants {
     public static final int kL2CANID = 2;
     public static final int kR1CANID = 3;
     public static final int kR2CANID = 4;
-    public static final int kPHCANID = 5;
+    public static final int kArmMotor1Port = 5;
+    public static final int kArmMotor2Port = 6;
+    public static final int kPHCANID = 7;
     //SOLENOIDS
     public static final int kBrakeForwardPort = 0;
     public static final int kBrakeReversePort = 1;

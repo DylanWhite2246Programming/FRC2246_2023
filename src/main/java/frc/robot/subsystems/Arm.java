@@ -5,7 +5,9 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import frc.robot.Constants.Ports;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
@@ -22,6 +24,8 @@ public class Arm extends ProfiledPIDSubsystem {
         0,
         // The motion profile constraints
         new TrapezoidProfile.Constraints(0, 0)));
+    m1 = new CANSparkMax(Ports.kArmMotor1Port, MotorType.kBrushless);
+    m2 = new CANSparkMax(Ports.kArmMotor2Port, MotorType.kBrushless);
     m2.follow(m1);
   }
 
