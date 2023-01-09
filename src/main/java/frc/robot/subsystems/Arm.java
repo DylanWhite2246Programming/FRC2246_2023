@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 
 public class Arm extends ProfiledPIDSubsystem {
@@ -59,6 +60,12 @@ public class Arm extends ProfiledPIDSubsystem {
    * @return state of upper limit true = pressed
    */
   public boolean getUpperLimit(){return upperLimit.get();}
+
+
+  /**close claw */
+  public void closeClaw(){claw.set(Value.kReverse);}
+  /**open claw */
+  public void openClaw(){claw.set(Value.kForward);}
 
 
   @Override
