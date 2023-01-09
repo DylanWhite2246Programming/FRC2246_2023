@@ -15,6 +15,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -69,6 +70,11 @@ public class Drivetrain extends SubsystemBase {
       drive.arcadeDrive(x, z);
     }
   }
+
+  /**applies brake to wheel */
+  public static void applyHandBrake(){brakeSolenoid.set(Value.kReverse);}
+  /**disengages brake to wheel */
+  public static void disengageHandBrake(){brakeSolenoid.set(Value.kForward);}
 
   /**
    * Example command factory method.
