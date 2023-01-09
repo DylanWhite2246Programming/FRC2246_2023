@@ -38,6 +38,16 @@ public class Arm extends ProfiledPIDSubsystem {
     m2.follow(m1);
   }
 
+  /**
+   * @return state of lower limit true = pressed
+   */
+  public boolean getLowerLimit(){return lowerLimit.get();}
+  /**
+   * @return state of upper limit true = pressed
+   */
+  public boolean getUpperLimit(){return upperLimit.get();}
+
+
   @Override
   public void useOutput(double output, TrapezoidProfile.State setpoint) {
     // Use the output (and optionally the setpoint) here
