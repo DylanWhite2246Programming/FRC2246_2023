@@ -39,4 +39,9 @@ public class Arm extends ProfiledPIDSubsystem {
     // Return the process variable measurement here
     return 0;
   }
+
+  @Override
+  public void periodic(){
+    super.periodic();
+  }
 }
