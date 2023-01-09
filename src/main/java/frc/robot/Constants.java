@@ -27,6 +27,8 @@ public final class Constants {
     //SOLENOIDS
     public static final int kBrakeForwardPort = 0;
     public static final int kBrakeReversePort = 1;
+    public static final int kClawForwardPort = 2;
+    public static final int kClawReversePort = 3;
     //DIO
     public static final int kArmEncoderPort = 0;
     public static final int kArmLowerLimitPort = 1;
