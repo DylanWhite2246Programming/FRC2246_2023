@@ -8,16 +8,25 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.Constants.Ports;
+import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 
 public class Arm extends ProfiledPIDSubsystem {
   private static CANSparkMax m1, m2;
+  private static DoubleSolenoid claw = new DoubleSolenoid(
+    PneumaticsModuleType.REVPH, 
+    Ports.kClawForwardPort, 
+    Ports.kClawReversePort
+  );
   private static DigitalInput lowerLimit, upperLimit;
   private static DutyCycleEncoder encoder;
+  private static final ArmFeedforward feedForward = new ArmFeedforward(0, 0, 0, 0);//TODO set values
   /** Creates a new Arm. */
   public Arm() {
     super(
@@ -31,7 +40,7 @@ public class Arm extends ProfiledPIDSubsystem {
     m1 = new CANSparkMax(Ports.kArmMotor1Port, MotorType.kBrushless);
     m2 = new CANSparkMax(Ports.kArmMotor2Port, MotorType.kBrushless);
     encoder = new DutyCycleEncoder(Ports.kArmEncoderPort);
-    encoder.setDistancePerRotation(360);
+    encoder.setDistancePerRotation(2*Math.PI);
     lowerLimit = new DigitalInput(Ports.kArmLowerLimitPort);
     upperLimit = new DigitalInput(Ports.kArmUpperLimitPort);
     //TODO figure out offset
@@ -50,7 +59,10 @@ public class Arm extends ProfiledPIDSubsystem {
 
   @Override
   public void useOutput(double output, TrapezoidProfile.State setpoint) {
-    // Use the output (and optionally the setpoint) here
+    //calculate feedforward from setpoint
+    var calculatedFeed = feedForward.calculate(setpoint.position, setpoint.velocity);
+    //add the feedforward to the pid output to get the motor output
+    m1.setVoltage(output+calculatedFeed);
   }
 
   @Override
