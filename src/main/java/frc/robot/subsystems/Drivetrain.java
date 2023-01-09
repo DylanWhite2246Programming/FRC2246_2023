@@ -47,10 +47,8 @@ public class Drivetrain extends SubsystemBase {
       Ports.kBrakeForwardPort, 
       Ports.kBrakeReversePort
     );
-    drive = new DifferentialDrive(
-      new MotorControllerGroup(l1, l2),
-      new MotorControllerGroup(r1, r2)
-    );
+    drive = new DifferentialDrive(l1,r1);
+    l2.follow(l1); r2.follow(r1);
     lEncoder=l1.getEncoder();
     rEncoder=r1.getEncoder();
     kinematics = new DifferentialDriveKinematics(RobotConstruction.kTrackWidth);
