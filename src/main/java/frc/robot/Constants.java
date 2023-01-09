@@ -33,10 +33,14 @@ public final class Constants {
     public static final int kArmReverseLimitPort = 2;
   }
   public static class OperatorConstants {
-    public static final double kDriveStraightThreashold = .05;
+    /*percent */
+    public static final double kDriveStraightThreashold = .0075;
     public static final int kDriverControllerPort = 0;
   }
   public static final class RobotConstruction{
+    /*meters */
     public static final double kTrackWidth = 0;
+    /*degrees */
+    public static final double kArmEncoderOffset = 0;
   }
 }
