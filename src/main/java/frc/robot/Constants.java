@@ -29,8 +29,8 @@ public final class Constants {
     public static final int kBrakeReversePort = 1;
     //DIO
     public static final int kArmEncoderPort = 0;
-    public static final int kArmForwardLimitPort = 1;
-    public static final int kArmReverseLimitPort = 2;
+    public static final int kArmLowerLimitPort = 1;
+    public static final int kArmUpperLimitPort = 2;
   }
   public static class OperatorConstants {
     /*percent */
