@@ -29,6 +29,8 @@ public class Arm extends ProfiledPIDSubsystem {
     m1 = new CANSparkMax(Ports.kArmMotor1Port, MotorType.kBrushless);
     m2 = new CANSparkMax(Ports.kArmMotor2Port, MotorType.kBrushless);
     encoder = new DutyCycleEncoder(Ports.kArmEncoderPort);
+    encoder.setDistancePerRotation(360);
+    //TODO figure out offset
     m2.follow(m1);
   }
 
@@ -40,7 +42,7 @@ public class Arm extends ProfiledPIDSubsystem {
   @Override
   public double getMeasurement() {
     // Return the process variable measurement here
-    return 0;
+    return encoder.getAbsolutePosition();
   }
 
   @Override
