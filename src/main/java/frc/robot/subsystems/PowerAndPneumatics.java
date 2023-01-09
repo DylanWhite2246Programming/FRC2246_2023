@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
@@ -14,10 +15,12 @@ import frc.robot.Constants.Ports;
 public class PowerAndPneumatics extends SubsystemBase {
   private static PowerDistribution pdh;
   private static PneumaticHub ph;
+  private static Compressor compressor;
   /** Creates a new PowerAndPneumatics. */
   public PowerAndPneumatics() {
     pdh = new PowerDistribution(Ports.kPDHCANID, ModuleType.kRev);
     ph = new PneumaticHub(Ports.kPHCANID);
+    compressor = ph.makeCompressor();
   }
 
   /**
@@ -54,11 +57,16 @@ public class PowerAndPneumatics extends SubsystemBase {
   /**
    * @return preasure of the pnuematic system
    */
-  public double getPreasure(){return ph.getPressure(0);}//TODO Check this
+  public double getPreasure(){return compressor.getPressure();}//TODO Check this
   /**turns on compressor with predefined limits in Robot.Constants file */
-  public void turnOnCompressor(){ph.enableCompressorAnalog(Constants.pressure[0], Constants.pressure[1]);}
+  public void turnOnCompressor(){compressor.enableAnalog(Constants.pressure[0], Constants.pressure[1]);}
   /**turns off compressor */
-  public void turnOffCompressor(){ph.disableCompressor();}
+  public void turnOffCompressor(){compressor.disable();}
+  /**
+   * @return the active satus of the compressor true means air is being compressed
+   */
+  public boolean getCompressorActive(){return compressor.isEnabled();}
+
 
 
   @Override
