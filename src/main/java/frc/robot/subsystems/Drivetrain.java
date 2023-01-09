@@ -80,6 +80,10 @@ public class Drivetrain extends SubsystemBase {
       drive.arcadeDrive(x, z);
     }
   }
+  public void driveVolts(double lv, double rv){
+    l1.setVoltage(lv);
+    r1.setVoltage(rv);
+  }
 
   /**applies brake to wheel */
   public static void applyHandBrake(){brakeSolenoid.set(Value.kReverse);}
