@@ -31,7 +31,7 @@ public class Arm extends ProfiledPIDSubsystem {
   public Arm() {
     super(
       // The ProfiledPIDController used by the subsystem
-      new ProfiledPIDController(
+      new ProfiledPIDController(//TODO set values
         0,
         0,
         0,
@@ -39,10 +39,11 @@ public class Arm extends ProfiledPIDSubsystem {
         new TrapezoidProfile.Constraints(0, 0)));
     m1 = new CANSparkMax(Ports.kArmMotor1Port, MotorType.kBrushless);
     m2 = new CANSparkMax(Ports.kArmMotor2Port, MotorType.kBrushless);
-    encoder = new DutyCycleEncoder(Ports.kArmEncoderPort);
-    encoder.setDistancePerRotation(2*Math.PI);
     lowerLimit = new DigitalInput(Ports.kArmLowerLimitPort);
     upperLimit = new DigitalInput(Ports.kArmUpperLimitPort);
+    encoder = new DutyCycleEncoder(Ports.kArmEncoderPort);
+    //set distance per pulse as tau radians
+    encoder.setDistancePerRotation(2*Math.PI);
     //TODO figure out offset
     m2.follow(m1);
   }
