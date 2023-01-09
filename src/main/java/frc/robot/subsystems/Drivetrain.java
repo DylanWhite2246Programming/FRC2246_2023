@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -25,9 +26,10 @@ import frc.robot.Constants.RobotConstruction;
 
 public class Drivetrain extends SubsystemBase {
   private static CANSparkMax l1,l2,r1,r2;
-  private static DoubleSolenoid brakeSolenoid;
-  private static RelativeEncoder lEncoder, rEncoder;  
   private static DifferentialDrive drive;
+  private static RelativeEncoder lEncoder, rEncoder;
+  private static AHRS navx = new AHRS();  
+  private static DoubleSolenoid brakeSolenoid;
 
   private static DifferentialDriveKinematics kinematics;
   private static DifferentialDriveOdometry odometry;
