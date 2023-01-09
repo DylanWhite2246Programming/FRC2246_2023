@@ -58,11 +58,22 @@ public class Drivetrain extends SubsystemBase {
     turnController = new PIDController(.5, 0, 0);
   }
 
+  /**
+   * @return returns the differential drive wheel speed of the robot 
+   */
   public DifferentialDriveWheelSpeeds getDifferentialDriveWheelSpeeds(){
     return new DifferentialDriveWheelSpeeds(lEncoder.getVelocity(), rEncoder.getVelocity());
   }
+  /**
+   * @return converts wheel speed to chassis speed and returns chassis speed
+   */
   public ChassisSpeeds getChassisSpeed(){return kinematics.toChassisSpeeds(getDifferentialDriveWheelSpeeds());}
 
+  /**
+   * @param x forward speed + is forward
+   * @param z rotation speed + is clockwise
+   * applys pid control loop to staty straight when oporator is not turning
+   */
   public void operatorDrive(double x, double z){
     if(Math.abs(z)<OperatorConstants.kDriveStraightThreashold){
       drive.arcadeDrive(x, turnController.calculate(getChassisSpeed().omegaRadiansPerSecond, 0));
