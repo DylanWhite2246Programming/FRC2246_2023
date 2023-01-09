@@ -10,11 +10,13 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants.Ports;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 
 public class Arm extends ProfiledPIDSubsystem {
   private static CANSparkMax m1, m2;
+  private static DigitalInput lowerLimit, upperLimit;
   private static DutyCycleEncoder encoder;
   /** Creates a new Arm. */
   public Arm() {
@@ -30,6 +32,8 @@ public class Arm extends ProfiledPIDSubsystem {
     m2 = new CANSparkMax(Ports.kArmMotor2Port, MotorType.kBrushless);
     encoder = new DutyCycleEncoder(Ports.kArmEncoderPort);
     encoder.setDistancePerRotation(360);
+    lowerLimit = new DigitalInput(Ports.kArmLowerLimitPort);
+    upperLimit = new DigitalInput(Ports.kArmUpperLimitPort);
     //TODO figure out offset
     m2.follow(m1);
   }
