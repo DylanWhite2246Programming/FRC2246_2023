@@ -15,12 +15,20 @@ package frc.robot;
 public final class Constants {
   public static final int[] pressure = new int[]{75,90};
   public static class Ports{
+    //CANID
     public static final int kPDHCANID = 0;
     public static final int kL1CANID = 1;
     public static final int kL2CANID = 2;
     public static final int kR1CANID = 3;
     public static final int kR2CANID = 4;
     public static final int kPHCANID = 5;
+    //SOLENOIDS
+    public static final int kBrakeForwardPort = 0;
+    public static final int kBrakeReversePort = 1;
+    //DIO
+    public static final int kArmEncoderPort = 0;
+    public static final int kArmForwardLimitPort = 1;
+    public static final int kArmReverseLimitPort = 2;
   }
   public static class OperatorConstants {
     public static final double kDriveStraightThreashold = .05;

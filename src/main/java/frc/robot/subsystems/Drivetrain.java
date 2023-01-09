@@ -13,6 +13,8 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -23,6 +25,7 @@ import frc.robot.Constants.RobotConstruction;
 
 public class Drivetrain extends SubsystemBase {
   private static CANSparkMax l1,l2,r1,r2;
+  private static DoubleSolenoid brakeSolenoid;
   private static RelativeEncoder lEncoder, rEncoder;  
   private static DifferentialDrive drive;
 
@@ -37,6 +40,12 @@ public class Drivetrain extends SubsystemBase {
     l2 = new CANSparkMax(Ports.kL2CANID, MotorType.kBrushless);
     r1 = new CANSparkMax(Ports.kR1CANID, MotorType.kBrushless);
     r2 = new CANSparkMax(Ports.kR2CANID, MotorType.kBrushless);
+    brakeSolenoid = new DoubleSolenoid(
+      Ports.kPHCANID, 
+      PneumaticsModuleType.REVPH, 
+      Ports.kBrakeForwardPort, 
+      Ports.kBrakeReversePort
+    );
     drive = new DifferentialDrive(
       new MotorControllerGroup(l1, l2),
       new MotorControllerGroup(r1, r2)
