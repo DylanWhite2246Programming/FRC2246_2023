@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -35,16 +34,12 @@ public class AutoLevel extends CommandBase {
   public void end(boolean interrupted) {
     if(!interrupted&&DriverStation.isAutonomous()){
       this.andThen(
-        drivetrain.STOP(),
         drivetrain.engageBrake(),
         new WaitCommand(3),
         drivetrain.disengageBrake()
       );
     }else if(!interrupted){
-      this.andThen(
-        drivetrain.STOP(),
-        drivetrain.engageBrake()
-      );
+      this.andThen(drivetrain.engageBrake());
     }else{
       this.andThen(drivetrain.STOP());
     }
