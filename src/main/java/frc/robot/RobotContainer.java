@@ -6,8 +6,10 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Team2246.Drivestation;
+import frc.robot.commands.AutoLevel;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -41,6 +43,8 @@ public class RobotContainer {
   public CommandBase disengageBrake(){return drivetrain.disengageBrake();}
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    autonChooser.addOption("AutoLevel", new AutoLevel(drivetrain));
+    mainTab.add(autonChooser).withSize(2, 1);
     // Configure the trigger bindings
     configureBindings();
   }
