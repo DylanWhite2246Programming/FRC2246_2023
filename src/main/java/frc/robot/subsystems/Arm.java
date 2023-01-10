@@ -11,12 +11,14 @@ import frc.robot.Constants.Ports;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 
 public class Arm extends ProfiledPIDSubsystem {
@@ -84,6 +86,19 @@ public class Arm extends ProfiledPIDSubsystem {
   public CommandBase retractArm(){return runOnce(()->extention.set(Value.kReverse));}
   public CommandBase extendStopper(){return runOnce(()->stopper.set(Value.kForward));}
   public CommandBase retractStopper(){return runOnce(()->stopper.set(Value.kReverse));}
+
+  public CommandBase setArmPosistion(double x){
+    return runOnce(
+      ()->{
+        setGoal(new State(x, 0));
+        enable();
+      }
+    );
+  }
+  public CommandBase posistion0(){return Commands.sequence(retractArm(),setArmPosistion(0),retractStopper(),openClaw());}
+  public CommandBase posistion1(){return Commands.sequence(setArmPosistion(0),extendArm());}
+  public CommandBase posistion2(){return Commands.sequence(retractArm(), setArmPosistion(0));}
+  public CommandBase posistion3(){return Commands.sequence(setArmPosistion(0),extendArm());}
   
 
   @Override
