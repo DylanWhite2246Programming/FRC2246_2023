@@ -5,10 +5,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Drivetrain;
 
 public class AutoLevel extends CommandBase {
+  Drivetrain drivetrain;
   /** Creates a new AutoLever. */
-  public AutoLevel() {
+  public AutoLevel(Drivetrain drivetrain) {
+    this.drivetrain = drivetrain;
+    addRequirements(drivetrain);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
