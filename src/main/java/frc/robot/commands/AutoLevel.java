@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.Constants.AutonConstants;
 import frc.robot.subsystems.Drivetrain;
 
@@ -50,6 +51,7 @@ public class AutoLevel extends CommandBase {
     }else{
       this.andThen(drivetrain.STOP());
     }
+    Constants.autonSuccessful = !interrupted;
   }
 
   // Returns true when the command should end.

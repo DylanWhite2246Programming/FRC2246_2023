@@ -17,6 +17,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  public static boolean autonSuccessful;
   public static final int[] pressure = new int[]{75,90};
   public static class Ports{
     //CANID
