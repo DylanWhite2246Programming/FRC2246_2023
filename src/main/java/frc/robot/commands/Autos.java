@@ -9,6 +9,16 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
 
 public final class Autos {
+
+  /** TODO
+   * autos we will have to make 
+   *  1 game piece collect another and stay out of the way
+   *  2 game piece and level the scale
+   *  2 game peice and collect another one and drive back to the community
+   *  3 game peice?
+   */
+
+
   /** Example static factory for an autonomous command. */
   //public static CommandBase exampleAuto(Drivetrain subsystem) {
   //  return Commands.sequence(subsystem.exampleMethodCommand(), new ExampleCommand(subsystem));
