@@ -81,7 +81,9 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    if(Constants.autonSuccessful){new WaitCommand(3).andThen(null);}
+    //three seconds after a sucesful auton relase brake this prevents
+    //the scale from becoming unlevel do to a oporator input
+    if(Constants.autonSuccessful){new WaitCommand(3).andThen(m_robotContainer.disengageBrake());}
   }
 
   /** This function is called periodically during operator control. */
