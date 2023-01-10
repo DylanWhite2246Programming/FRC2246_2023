@@ -31,9 +31,11 @@ public class RobotContainer {
     );
   //Sendable chooser to select autonomus command
   SendableChooser<CommandBase> autonChooser = new SendableChooser<CommandBase>();
-  private final Drivetrain drivetrain = new Drivetrain();
-  private final Arm arm = new Arm();
+  private static final Drivetrain drivetrain = new Drivetrain();
+  private static final Arm arm = new Arm();
 
+
+  public static CommandBase disengageBrake(){return drivetrain.disengageBrake();}
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
