@@ -37,10 +37,12 @@ public class AutoLevel extends CommandBase {
     error = levelValue-currentAngle;
     //calculate the amount of power need.
     drivePower=-Math.min(AutonConstants.kDriveXKp*error, 1);
+    //apply power
+    drivetrain.operatorDrive(()->drivePower, ()->0);
     //if angle of table is lower than 2 degrees 
     //2.5degrees is what is required to score
     if(Math.abs(currentAngle)<=levelValue){timer.start();}
-    else{timer.stop();timer.reset();}
+    else{timer.stop();timer.reset();}//if level is not level rest timer
   }
 
   // Called once the command ends or is interrupted.
