@@ -38,12 +38,21 @@ public final class Constants {
     public static final int kArmLowerLimitPort = 1;
     public static final int kArmUpperLimitPort = 2;
   }
+  public static class AutonConstants{
+    public static final double kLeftKp = 0; 
+    public static final double kLeftKi = 0; 
+    public static final double kLeftKd = 0; 
+    public static final double kRightKp = 0; 
+    public static final double kRightKi = 0; 
+    public static final double kRightKd = 0;
+    public static final double kDriveXKp = (kLeftKp+kRightKp)/2;
+  } 
   public static class OperatorConstants {
     /*percent */
     public static final double kDriveStraightThreashold = .0075;
     public static final int kDriverControllerPort = 0;
   }
-  public static final class RobotConstruction{
+  public static class RobotConstruction{
     /*meters */
     public static final double kTrackWidth = 0;
     /*degrees */
