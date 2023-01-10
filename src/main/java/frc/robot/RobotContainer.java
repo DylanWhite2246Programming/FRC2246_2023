@@ -8,7 +8,9 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.Team2246.Drivestation;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -27,6 +29,8 @@ public class RobotContainer {
      0,
      0
     );
+  //Sendable chooser to select autonomus command
+  SendableChooser<CommandBase> autonChooser = new SendableChooser<CommandBase>();
   private final Drivetrain drivetrain = new Drivetrain();
   private final Arm arm = new Arm();
 
