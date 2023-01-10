@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 
 public class Arm extends ProfiledPIDSubsystem {
@@ -24,6 +25,16 @@ public class Arm extends ProfiledPIDSubsystem {
     PneumaticsModuleType.REVPH, 
     Ports.kClawForwardPort, 
     Ports.kClawReversePort
+  );
+  private static DoubleSolenoid extention = new DoubleSolenoid(
+    PneumaticsModuleType.REVPH, 
+    Ports.kExtentionForwardPort,
+    Ports.kExtentionReversePort
+  );
+  private static DoubleSolenoid stopper = new DoubleSolenoid(
+    PneumaticsModuleType.REVPH, 
+    Ports.kStopperForwardPort, 
+    Ports.kStopperReversePort
   );
   private static DigitalInput lowerLimit, upperLimit;
   private static DutyCycleEncoder encoder;
@@ -61,20 +72,19 @@ public class Arm extends ProfiledPIDSubsystem {
    */
   public boolean getUpperLimit(){return upperLimit.get();}
 
-
-  /**close claw */
-  public void closeClaw(){claw.set(Value.kReverse);}
-  /**open claw */
-  public void openClaw(){claw.set(Value.kForward);}
-
-
   @Override
   public void useOutput(double output, TrapezoidProfile.State setpoint) {
-    //calculate feedforward from setpoint
-    var calculatedFeed = feedForward.calculate(setpoint.position, setpoint.velocity);
-    //add the feedforward to the pid output to get the motor output
-    m1.setVoltage(output+calculatedFeed);
+    //add the calculated feedforward to the pid output to get the motor output
+    m1.setVoltage(output+feedForward.calculate(setpoint.position, setpoint.velocity));
   }
+
+  public CommandBase openClaw(){return runOnce(()->claw.set(Value.kForward));}
+  public CommandBase closeClaw(){return runOnce(()->claw.set(Value.kReverse));}
+  public CommandBase extendArm(){return runOnce(()->extention.set(Value.kForward));}
+  public CommandBase retractArm(){return runOnce(()->extention.set(Value.kReverse));}
+  public CommandBase extendStopper(){return runOnce(()->stopper.set(Value.kForward));}
+  public CommandBase retractStopper(){return runOnce(()->stopper.set(Value.kReverse));}
+  
 
   @Override
   public double getMeasurement() {
