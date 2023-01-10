@@ -29,14 +29,14 @@ public class Drivestation extends SubsystemBase {
   private static double tune(double x){return x*x*Math.signum(x);}
   
   //ButtonBoard
-  public final Trigger s00  = new Trigger(()->buttonboardA.getRawButton(0));
-  public final Trigger s01  = new Trigger(()->buttonboardA.getRawButton(1));
-  public final Trigger s02  = new Trigger(()->buttonboardA.getRawButton(2));
-  public final Trigger s03  = new Trigger(()->buttonboardA.getRawButton(3));
-  public final Trigger s10  = new Trigger(()->buttonboardA.getRawButton(4));
-  public final Trigger s11  = new Trigger(()->buttonboardA.getRawButton(5));
-  public final Trigger s12  = new Trigger(()->buttonboardA.getRawButton(6));
-  public final Trigger s13  = new Trigger(()->buttonboardA.getRawButton(7));
+  public  final Trigger s00  = new Trigger(()->buttonboardA.getRawButton(0));
+  public  final Trigger s01  = new Trigger(()->buttonboardA.getRawButton(1));
+  public  final Trigger s02  = new Trigger(()->buttonboardA.getRawButton(2));
+  public  final Trigger s03  = new Trigger(()->buttonboardA.getRawButton(3));
+  public  final Trigger s10  = new Trigger(()->buttonboardA.getRawButton(4));
+  public  final Trigger s11  = new Trigger(()->buttonboardA.getRawButton(5));
+  public  final Trigger s12  = new Trigger(()->buttonboardA.getRawButton(6));
+  public  final Trigger s13  = new Trigger(()->buttonboardA.getRawButton(7));
  
   public final Trigger b00  = new Trigger(()->buttonboardB.getRawButton( 0));
   public final Trigger b01  = new Trigger(()->buttonboardB.getRawButton( 1));
@@ -64,9 +64,9 @@ public class Drivestation extends SubsystemBase {
   public final Trigger ls9  = new Trigger(()->lJoy.getRawButton(9));
   public final Trigger ls10 = new Trigger(()->lJoy.getRawButton(10));
 
-  public double getLeftX(){return tune(lJoy.getX());}
+  public  double getLeftX(){return tune(lJoy.getX());}
   //public double getLeftY(){return limiter.calculate(tune(leftStick.getY()));}
-  public double getLeftY(){
+  public  double getLeftY(){
     //if(slewImposer()){
     //  return limiter.calculate(tune(leftStick.getY()));
     //}else{
