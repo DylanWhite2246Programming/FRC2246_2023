@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 
 public final class Autos {
-
   /** TODO
    * autos we will have to make 
    *  1 game piece collect another and stay out of the way
