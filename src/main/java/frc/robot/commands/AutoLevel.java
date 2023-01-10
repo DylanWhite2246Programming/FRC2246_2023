@@ -13,6 +13,7 @@ import frc.robot.subsystems.Drivetrain;
 public class AutoLevel extends CommandBase {
   Drivetrain drivetrain;
   Timer timer = new Timer();
+  private double error, currentAngle, drivePower;
 
   /** Creates a new AutoLever. */
   public AutoLevel(Drivetrain drivetrain) {
@@ -27,7 +28,11 @@ public class AutoLevel extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    currentAngle=drivetrain.getPitch();
+    if(Math.abs(currentAngle)<=2){timer.start();}
+    else{timer.stop();timer.reset();}
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -48,6 +53,6 @@ public class AutoLevel extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return timer.get()>=1.5;
   }
 }
