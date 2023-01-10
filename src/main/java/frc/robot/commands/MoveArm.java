@@ -20,8 +20,12 @@ public class MoveArm extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    arm.setGoal(position);
-    arm.enable();
+    if(arm.getMeasurement()<RobotConstruction.kArmEncoderOffset+Math.toRadians(5)){
+      arm.disable();
+    }else{
+      arm.setGoal(position);
+      arm.enable();
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
