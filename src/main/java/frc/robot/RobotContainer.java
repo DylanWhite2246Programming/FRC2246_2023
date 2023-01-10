@@ -19,7 +19,13 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final Drivestation drivestation = new Drivestation(0, 0, 0, 0);
+  private final Drivestation drivestation = 
+    new Drivestation(
+      0,
+      0,
+     0,
+     0
+    );
   private final Drivetrain drivetrain = new Drivetrain();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
