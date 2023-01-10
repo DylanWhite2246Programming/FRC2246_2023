@@ -10,6 +10,8 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
@@ -38,6 +40,7 @@ public class Drivetrain extends SubsystemBase {
 
   /** Creates a new ExampleSubsystem. */
   public Drivetrain() {
+    //define variables
     l1 = new CANSparkMax(Ports.kL1CANID, MotorType.kBrushless);
     l2 = new CANSparkMax(Ports.kL2CANID, MotorType.kBrushless);
     r1 = new CANSparkMax(Ports.kR1CANID, MotorType.kBrushless);
@@ -49,24 +52,29 @@ public class Drivetrain extends SubsystemBase {
       Ports.kBrakeReversePort
     );
     drive = new DifferentialDrive(l1,r1);
-    l2.follow(l1); r2.follow(r1);
     lEncoder=l1.getEncoder();
     rEncoder=r1.getEncoder();
     kinematics = new DifferentialDriveKinematics(RobotConstruction.kTrackWidth);
-    odometry = new DifferentialDriveOdometry(null, 0, 0);//TODO change
+    odometry = new DifferentialDriveOdometry(
+      getRotation2d(), getLeftDistance(), getRightDistance()
+    );
     turnController = new PIDController(.5, 0, 0);
+      
+    //zero yaw for beginning of match
+    l2.follow(l1); r2.follow(r1);
+    navx.zeroYaw();
   }
 
   /**
    * @return returns the differential drive wheel speed of the robot 
    */
-  public DifferentialDriveWheelSpeeds getDifferentialDriveWheelSpeeds(){
+  public DifferentialDriveWheelSpeeds getWheelSpeeds(){
     return new DifferentialDriveWheelSpeeds(lEncoder.getVelocity(), rEncoder.getVelocity());
   }
   /**
    * @return converts wheel speed to chassis speed and returns chassis speed
    */
-  public ChassisSpeeds getChassisSpeed(){return kinematics.toChassisSpeeds(getDifferentialDriveWheelSpeeds());}
+  public ChassisSpeeds getChassisSpeed(){return kinematics.toChassisSpeeds(getWheelSpeeds());}
 
   /**
    * @param x forward speed + is forward
@@ -80,10 +88,34 @@ public class Drivetrain extends SubsystemBase {
       drive.arcadeDrive(x, z);
     }
   }
+  /**
+   * directly runs drivetrain with voltage parameters
+   * @param lv left voltage
+   * @param rv right voltage
+   */
   public void driveVolts(double lv, double rv){
-    l1.setVoltage(lv);
-    r1.setVoltage(rv);
+    l1.setVoltage(lv); r1.setVoltage(rv); 
   }
+
+  /**@return turn rate of the robot in radians per second */
+  public double getTurnRate(){return navx.getRate();}
+  /**@return yaw in radians */
+  public double getYaw(){return navx.getAngle();}
+  public Rotation2d getRotation2d(){return navx.getRotation2d();}
+  /**@return pitch in degrees*/
+  public double getPitch(){return navx.getPitch();}
+
+  /**@return distance in meters*/
+  public double getLeftDistance(){return lEncoder.getPosition();}
+  /**@return distance in meters*/
+  public double getRightDistance(){return rEncoder.getPosition();}
+  /**@return velocity in meters per second*/
+  public double getLeftVelocity(){return lEncoder.getVelocity();}
+  /**@return velocity in meters per second*/
+  public double getRightVelocity(){return rEncoder.getVelocity();}
+
+  /**@return returns pose in meters*/
+  public Pose2d getPose2d(){return odometry.getPoseMeters();} 
 
   /**applies brake to wheel */
   public static void applyHandBrake(){brakeSolenoid.set(Value.kReverse);}
@@ -107,6 +139,8 @@ public class Drivetrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    //update odometry
+    odometry.update(getRotation2d(), getLeftDistance(), getRightDistance());
   }
 
   @Override
