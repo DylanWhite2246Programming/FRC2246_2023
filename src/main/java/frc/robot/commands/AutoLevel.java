@@ -19,7 +19,6 @@ public class AutoLevel extends CommandBase {
   public AutoLevel(Drivetrain drivetrain) {
     this.drivetrain = drivetrain;
     addRequirements(drivetrain);
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -56,6 +55,7 @@ public class AutoLevel extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    //when the scale is level for more than 1.5 seconds command ends
     return timer.get()>=1.5;
   }
 }
