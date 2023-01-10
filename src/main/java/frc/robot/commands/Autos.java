@@ -13,6 +13,9 @@ public final class Autos {
   public static CommandBase exampleAuto(Drivetrain subsystem) {
     return Commands.sequence(subsystem.exampleMethodCommand(), new ExampleCommand(subsystem));
   }
+  //public static CommandBase autoLevel(Drivetrain drivetrain){
+  //  return Commands.sequence(d)
+  //}
 
   private Autos() {
     throw new UnsupportedOperationException("This is a utility class!");
