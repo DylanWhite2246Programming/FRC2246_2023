@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.Constants.Ports;
 import frc.robot.Constants.RobotConstruction;
+import frc.robot.commands.MoveArm;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -84,26 +85,17 @@ public class Arm extends ProfiledPIDSubsystem {
   public CommandBase extendStopper(){return runOnce(()->stopper.set(Value.kForward));}
   public CommandBase retractStopper(){return runOnce(()->stopper.set(Value.kReverse));}
 
-  public CommandBase setArmPosistion(double x){
-    return runOnce(
-      ()->{
-        setGoal(new State(x, 0));
-        enable();
-      }
-    );
-  }
-  
   public CommandBase posistion0(){
     return Commands.sequence(
       retractArm(),
       retractStopper(),
-      setArmPosistion(RobotConstruction.kArmEncoderOffset),
+      new MoveArm(this, RobotConstruction.kArmEncoderOffset),
       openClaw()
       );
     }
-    public CommandBase posistion1(){return Commands.sequence(setArmPosistion(0),extendArm());}
-    public CommandBase posistion2(){return Commands.sequence(retractArm(), setArmPosistion(0));}
-    public CommandBase posistion3(){return Commands.sequence(setArmPosistion(0),extendArm());}
+    public CommandBase posistion1(){return Commands.sequence(new MoveArm(this, 0),extendArm());}
+    public CommandBase posistion2(){return Commands.sequence(retractArm(), new MoveArm(this, 0));}
+    public CommandBase posistion3(){return Commands.sequence(new MoveArm(this, 0),extendArm());}
 
     @Override
     public void useOutput(double output, TrapezoidProfile.State setpoint) {
