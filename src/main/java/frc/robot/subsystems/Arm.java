@@ -87,10 +87,10 @@ public class Arm extends ProfiledPIDSubsystem {
 
   public CommandBase posistion0(){
     return Commands.sequence(
-      retractArm(),
-      retractStopper(),
-      new MoveArm(this, RobotConstruction.kArmEncoderOffset),
-      openClaw()
+        retractArm(),
+        retractStopper(),
+        new MoveArm(this, RobotConstruction.kArmEncoderOffset),
+        openClaw()
       );
     }
     public CommandBase posistion1(){return Commands.sequence(new MoveArm(this, 0),extendArm());}
