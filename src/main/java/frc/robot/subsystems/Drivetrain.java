@@ -107,7 +107,8 @@ public class Drivetrain extends SubsystemBase {
   /**@return returns pose in meters*/
   public Pose2d getPose2d(){return odometry.getPoseMeters();} 
 
-  public CommandBase engageBrake(){return runOnce(()->{brakeSolenoid.set(Value.kReverse);drive.stopMotor();});}
+  public CommandBase STOP(){return runOnce(()->drive.stopMotor());}
+  public CommandBase engageBrake(){return STOP().andThen(runOnce(()->brakeSolenoid.set(Value.kReverse)));}
   public CommandBase disengageBrake(){return runOnce(()->brakeSolenoid.set(Value.kForward));}
   public CommandBase operatorDrive(DoubleSupplier x, DoubleSupplier z){
     return run(
@@ -120,7 +121,6 @@ public class Drivetrain extends SubsystemBase {
       }
     );
   }
-  public CommandBase STOP(){return runOnce(()->drive.stopMotor());}
 
   @Override
   public void periodic() {
