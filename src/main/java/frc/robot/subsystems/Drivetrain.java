@@ -106,6 +106,7 @@ public class Drivetrain extends SubsystemBase {
 
   /**@return returns pose in meters*/
   public Pose2d getPose2d(){return odometry.getPoseMeters();} 
+  public DifferentialDriveKinematics getKinematics(){return kinematics;}
 
   public CommandBase STOP(){return runOnce(()->drive.stopMotor());}
   public CommandBase engageBrake(){return STOP().andThen(runOnce(()->brakeSolenoid.set(Value.kReverse)));}

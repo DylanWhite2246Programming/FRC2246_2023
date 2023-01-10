@@ -4,9 +4,13 @@
 
 package frc.robot.commands;
 
+import frc.robot.Constants.AutonConstants;
 import frc.robot.subsystems.Drivetrain;
+import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 
 public final class Autos {
 
@@ -18,6 +22,20 @@ public final class Autos {
    *  3 game peice?
    */
 
+  private static RamseteCommand ramseteCommandGenerator(Drivetrain drive, Trajectory trajectory){
+    return new RamseteCommand(
+      trajectory, 
+      drive::getPose2d, 
+      new RamseteController(0, 0), 
+      AutonConstants.kFeedForward, 
+      drive.getKinematics(), 
+      drive::getWheelSpeeds, 
+      AutonConstants.kLeftController, 
+      AutonConstants.kRightController, 
+      drive::driveVolts, 
+      drive
+    );
+  }
 
   /** Example static factory for an autonomous command. */
   //public static CommandBase exampleAuto(Drivetrain subsystem) {

@@ -4,6 +4,10 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -39,13 +43,16 @@ public final class Constants {
     public static final int kArmUpperLimitPort = 2;
   }
   public static class AutonConstants{
-    public static final double kLeftKp = 0; 
-    public static final double kLeftKi = 0; 
-    public static final double kLeftKd = 0; 
-    public static final double kRightKp = 0; 
-    public static final double kRightKi = 0; 
-    public static final double kRightKd = 0;
-    public static final double kDriveXKp = (kLeftKp+kRightKp)/2;
+    public static final PIDController kLeftController = 
+      new PIDController(0, 0, 0);
+    public static final PIDController kRightController =
+      new PIDController(0, 0, 0);
+    public static final SimpleMotorFeedforward kFeedForward = 
+      new SimpleMotorFeedforward(0, 0, 0);
+    public static final RamseteController kRamseteController = 
+      new RamseteController(0, 0);
+    public static final double kDriveXKp = 
+      (kLeftController.getP()+kRightController.getP())/2;
   } 
   public static class OperatorConstants {
     /*percent */
