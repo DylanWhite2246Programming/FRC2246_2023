@@ -35,7 +35,7 @@ public class RobotContainer {
   private static final Arm arm = new Arm();
 
 
-  public static CommandBase disengageBrake(){return drivetrain.disengageBrake();}
+  public CommandBase disengageBrake(){return drivetrain.disengageBrake();}
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
