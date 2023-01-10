@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -41,6 +42,7 @@ public class Arm extends ProfiledPIDSubsystem {
   );
   private static DigitalInput lowerLimit, upperLimit;
   private static DutyCycleEncoder encoder;
+  private static final double extendedKSdelta=0;
   private static final ArmFeedforward feedForward = new ArmFeedforward(0, 0, 0, 0);//TODO set values
   /** Creates a new Arm. */
   public Arm() {
@@ -73,13 +75,9 @@ public class Arm extends ProfiledPIDSubsystem {
    * @return state of upper limit true = pressed
    */
   public boolean getUpperLimit(){return upperLimit.get();}
+  public boolean atGoal(){return getController().atGoal();}
 
-  @Override
-  public void useOutput(double output, TrapezoidProfile.State setpoint) {
-    //add the calculated feedforward to the pid output to get the motor output
-    m1.setVoltage(output+feedForward.calculate(setpoint.position, setpoint.velocity));
-  }
-
+  
   public CommandBase openClaw(){return runOnce(()->claw.set(Value.kForward));}
   public CommandBase closeClaw(){return runOnce(()->claw.set(Value.kReverse));}
   public CommandBase extendArm(){return runOnce(()->extention.set(Value.kForward));}
@@ -95,20 +93,28 @@ public class Arm extends ProfiledPIDSubsystem {
       }
     );
   }
-
+  
   public CommandBase posistion0(){
     return Commands.sequence(
       retractArm(),
       retractStopper(),
       setArmPosistion(RobotConstruction.kArmEncoderOffset),
       openClaw()
-    );
-  }
-  public CommandBase posistion1(){return Commands.sequence(setArmPosistion(0),extendArm());}
-  public CommandBase posistion2(){return Commands.sequence(retractArm(), setArmPosistion(0));}
-  public CommandBase posistion3(){return Commands.sequence(setArmPosistion(0),extendArm());}
-  
+      );
+    }
+    public CommandBase posistion1(){return Commands.sequence(setArmPosistion(0),extendArm());}
+    public CommandBase posistion2(){return Commands.sequence(retractArm(), setArmPosistion(0));}
+    public CommandBase posistion3(){return Commands.sequence(setArmPosistion(0),extendArm());}
 
+    @Override
+    public void useOutput(double output, TrapezoidProfile.State setpoint) {
+      if(extention.get()==Value.kForward){
+        m1.setVoltage(output+feedForward.calculate(setpoint.position, setpoint.velocity)+extendedKSdelta);
+      }
+      else{m1.setVoltage(output+feedForward.calculate(setpoint.position, setpoint.velocity));}
+      //add the calculated feedforward to the pid output to get the motor output
+      
+    }
   @Override
   public double getMeasurement() {
     // Return the process variable measurement here
