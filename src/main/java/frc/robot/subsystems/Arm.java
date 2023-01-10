@@ -62,7 +62,7 @@ public class Arm extends ProfiledPIDSubsystem {
     //configured variables
       //set distance per pulse as tau radians
     encoder.setDistancePerRotation(2*Math.PI);
-    //TODO figure out offset
+    encoder.setPositionOffset(RobotConstruction.kArmEncoderOffset);
     m2.follow(m1);
   }
 
@@ -96,7 +96,7 @@ public class Arm extends ProfiledPIDSubsystem {
       }
     );
   }
-  
+
   public CommandBase posistion0(){
     return Commands.sequence(
       retractArm(),
