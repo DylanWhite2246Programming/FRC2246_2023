@@ -4,10 +4,12 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.DoubleSupplier;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -17,8 +19,8 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -77,18 +79,6 @@ public class Drivetrain extends SubsystemBase {
   public ChassisSpeeds getChassisSpeed(){return kinematics.toChassisSpeeds(getWheelSpeeds());}
 
   /**
-   * @param x forward speed + is forward
-   * @param z rotation speed + is clockwise
-   * applys pid control loop to staty straight when oporator is not turning
-   */
-  public void operatorDrive(double x, double z){
-    if(Math.abs(z)<OperatorConstants.kDriveStraightThreashold){
-      drive.arcadeDrive(x, turnController.calculate(getChassisSpeed().omegaRadiansPerSecond, 0));
-    }else{
-      drive.arcadeDrive(x, z);
-    }
-  }
-  /**
    * directly runs drivetrain with voltage parameters
    * @param lv left voltage
    * @param rv right voltage
@@ -117,24 +107,20 @@ public class Drivetrain extends SubsystemBase {
   /**@return returns pose in meters*/
   public Pose2d getPose2d(){return odometry.getPoseMeters();} 
 
-  /**applies brake to wheel */
-  public static void applyHandBrake(){brakeSolenoid.set(Value.kReverse);}
-  /**disengages brake to wheel */
-  public static void disengageHandBrake(){brakeSolenoid.set(Value.kForward);}
-
-  /**
-   * Example command factory method.
-   *
-   * @return a command
-   */
-  public CommandBase exampleMethodCommand() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
-          /* one-time action goes here */
-        });
+  public CommandBase engageBrake(){return runOnce(()->brakeSolenoid.set(Value.kReverse));}
+  public CommandBase disengageBrake(){return runOnce(()->brakeSolenoid.set(Value.kForward));}
+  public CommandBase operatorDrive(DoubleSupplier x, DoubleSupplier z){
+    return run(
+      ()->{
+        if(Math.abs(z.getAsDouble())<OperatorConstants.kDriveStraightThreashold){
+          drive.arcadeDrive(z.getAsDouble(), turnController.calculate(getChassisSpeed().omegaRadiansPerSecond, 0));
+        }else{
+          drive.arcadeDrive(x.getAsDouble(), z.getAsDouble());
+        }
+      }
+    );
   }
+  public CommandBase STOP(){return runOnce(()->drive.stopMotor());}
 
   @Override
   public void periodic() {
