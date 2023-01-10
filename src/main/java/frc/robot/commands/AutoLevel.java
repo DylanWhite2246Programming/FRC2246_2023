@@ -21,6 +21,8 @@ public class AutoLevel extends CommandBase {
     this.drivetrain = drivetrain;
     addRequirements(drivetrain);
   }
+  
+  private boolean isLevel(){return Math.abs(currentAngle)<=levelValue;}
 
   // Called when the command is initially scheduled.
   @Override
@@ -39,7 +41,7 @@ public class AutoLevel extends CommandBase {
     drivetrain.operatorDrive(()->drivePower, ()->0);
     //if angle of table is lower than 2 degrees 
     //2.5degrees is what is required to score
-    if(Math.abs(currentAngle)<=levelValue){timer.start();}
+    if(isLevel()){timer.start();}
     else{timer.stop();timer.reset();}//if level is not level rest timer
   }
 
@@ -51,7 +53,7 @@ public class AutoLevel extends CommandBase {
     }else{
       this.andThen(drivetrain.STOP());
     }
-    Constants.autonSuccessful = !interrupted;
+    Constants.autonSuccessful = (!interrupted)&&isLevel();
   }
 
   // Returns true when the command should end.
