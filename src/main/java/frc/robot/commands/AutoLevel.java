@@ -4,11 +4,14 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Drivetrain;
 
 public class AutoLevel extends CommandBase {
   Drivetrain drivetrain;
+  Timer timer = new Timer();
 
   /** Creates a new AutoLever. */
   public AutoLevel(Drivetrain drivetrain) {
@@ -28,7 +31,13 @@ public class AutoLevel extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if(!interrupted){this.andThen(drivetrain.engageBrake());}
+    if(!interrupted){
+      this.andThen(
+        drivetrain.engageBrake(),
+        new WaitCommand(3),
+        drivetrain.disengageBrake()
+      );
+    }
   }
 
   // Returns true when the command should end.
