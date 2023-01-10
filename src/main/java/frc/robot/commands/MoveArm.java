@@ -20,7 +20,8 @@ public class MoveArm extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    arm.setArmPosistion(position).schedule();
+    arm.setGoal(position);
+    arm.enable();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
