@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.Constants.Ports;
+import frc.robot.Constants.RobotConstruction;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -95,7 +96,15 @@ public class Arm extends ProfiledPIDSubsystem {
       }
     );
   }
-  public CommandBase posistion0(){return Commands.sequence(retractArm(),setArmPosistion(0),retractStopper(),openClaw());}
+  
+  public CommandBase posistion0(){
+    return Commands.sequence(
+      retractArm(),
+      retractStopper(),
+      setArmPosistion(RobotConstruction.kArmEncoderOffset),
+      openClaw()
+    );
+  }
   public CommandBase posistion1(){return Commands.sequence(setArmPosistion(0),extendArm());}
   public CommandBase posistion2(){return Commands.sequence(retractArm(), setArmPosistion(0));}
   public CommandBase posistion3(){return Commands.sequence(setArmPosistion(0),extendArm());}
