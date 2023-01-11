@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Team2246.Drivestation;
 import frc.robot.commands.AutoLevel;
+import frc.robot.commands.MoveArm;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -15,6 +16,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -38,6 +40,17 @@ public class RobotContainer {
   SendableChooser<CommandBase> autonChooser = new SendableChooser<CommandBase>();
   private static final Drivetrain drivetrain = new Drivetrain();
   private static final Arm arm = new Arm();
+
+  private static CommandBase moveArm(double value){
+    return new ConditionalCommand(
+      //retract arm and wait for it to reach limit
+      arm.retractArm().until(arm::getBoomLimit).andThen(moveArm(value)), 
+      //if collision will not happen move arm
+      new MoveArm(arm, value), 
+      //when the goal and curent position are on differnt sides of the robot the arm must be retracted
+      ()->Math.signum(value)!=Math.signum(arm.getMeasurement())
+    );
+  }
 
 
   public CommandBase disengageBrake(){return drivetrain.disengageBrake();}
