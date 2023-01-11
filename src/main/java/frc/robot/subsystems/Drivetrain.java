@@ -11,7 +11,10 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
+import edu.wpi.first.math.MatBuilder;
+import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -40,6 +43,8 @@ public class Drivetrain extends SubsystemBase {
 
   private static PIDController turnController;
 
+  private DifferentialDrivePoseEstimator drivePoseEstimator;
+
   /** Creates a new ExampleSubsystem. */
   public Drivetrain() {
     //define variables
@@ -60,6 +65,12 @@ public class Drivetrain extends SubsystemBase {
     odometry = new DifferentialDriveOdometry(
       getRotation2d(), getLeftDistance(), getRightDistance()
     );
+    drivePoseEstimator = new DifferentialDrivePoseEstimator(
+      kinematics, getRotation2d(), getLeftDistance(), getRightDistance(), 
+      new Pose2d(0, 0, new Rotation2d(0)),//TODO figure that out 
+      new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.02, 0.02, 0.01), // Local measurement standard deviations. Left encoder, right encoder, gyro.
+      new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.1, 0.1, 0.01)// Global measurement standard deviations. X, Y, and theta
+    ); 
     turnController = new PIDController(.5, 0, 0);
       
     //zero yaw for beginning of match
