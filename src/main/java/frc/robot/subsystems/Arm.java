@@ -79,6 +79,7 @@ public class Arm extends ProfiledPIDSubsystem {
   public CommandBase extendArm(){return runOnce(()->extention.set(Value.kForward));}
   public CommandBase retractArm(){return runOnce(()->extention.set(Value.kReverse));}
 
+  /**way of overiding move arm */
   public CommandBase setGoalCommand(double goal){return runOnce(()->setGoal(goal));}
 
   private CommandBase moveArm(double value){
@@ -90,7 +91,7 @@ public class Arm extends ProfiledPIDSubsystem {
         //new MoveArm(this, value)
       ),
       //if collision will not happen move arm
-      runOnce(()->setGoal(value)), 
+      setGoalCommand(value), 
       //when the goal and curent position are on differnt sides of the robot the arm must be retracted
       ()->(Math.signum(value)!=Math.signum(this.getMeasurement()))||value==0
     );
