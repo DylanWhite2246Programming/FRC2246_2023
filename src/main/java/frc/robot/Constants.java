@@ -36,8 +36,6 @@ public final class Constants {
     public static final int kClawReversePort = 3;
     public static final int kExtentionForwardPort = 4;
     public static final int kExtentionReversePort = 5;
-    public static final int kStopperForwardPort = 6;
-    public static final int kStopperReversePort = 7;
     //DIO
     public static final int kArmEncoderPort = 0;
     public static final int kArmLowerLimitPort = 1;
