@@ -78,7 +78,7 @@ public class Arm extends ProfiledPIDSubsystem {
   public CommandBase retractArm(){return runOnce(()->extention.set(Value.kReverse));}
 
   /**way of overiding move arm */
-  public CommandBase setGoalCommand(double goal){return runOnce(()->setGoal(goal));}
+  public CommandBase setGoalCommand(double goal){return runOnce(()->{setGoal(goal);enable();});}
 
   private CommandBase moveArm(double value){
     return new ConditionalCommand(
@@ -95,13 +95,13 @@ public class Arm extends ProfiledPIDSubsystem {
     ).until(this::atGoal);
   }
 
-  public CommandBase moveToBackTopPosition(){return moveArm(RobotConstruction.backTopPosition);}
-  public CommandBase moveToBackMiddlePostion(){return moveArm(RobotConstruction.backMidPosistion);}
-  public CommandBase moveToBackLowPosition(){return moveArm(RobotConstruction.backLowPosition);}
+  public CommandBase moveToBackTopPosition(){return moveArm(RobotConstruction.backTopPosition).andThen(extendArm());}
+  public CommandBase moveToBackMiddlePostion(){return moveArm(RobotConstruction.backMidPosistion).andThen(extendArm());}
+  public CommandBase moveToBackLowPosition(){return moveArm(RobotConstruction.backLowPosition).andThen(extendArm());}
   public CommandBase moveToZeroPosition(){return moveArm(0).andThen(()->disable());}
-  public CommandBase moveToIntakePosition(){return moveArm(RobotConstruction.intakePostion);}
-  public CommandBase moveToFrontGroudPosition(){return moveArm(RobotConstruction.frontLowPosition);}
-  public CommandBase moveToFrontMiddlePosition(){return moveArm(RobotConstruction.frontMidllePosition);}
+  public CommandBase moveToIntakePosition(){return moveArm(RobotConstruction.intakePostion).andThen(extendArm());}
+  public CommandBase moveToFrontGroudPosition(){return moveArm(RobotConstruction.frontLowPosition).andThen(extendArm());}
+  public CommandBase moveToFrontMiddlePosition(){return moveArm(RobotConstruction.frontMidllePosition).andThen(extendArm());}
 
 
 
