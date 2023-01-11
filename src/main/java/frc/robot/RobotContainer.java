@@ -43,6 +43,7 @@ public class RobotContainer {
   public CommandBase disengageBrake(){return drivetrain.disengageBrake();}
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    autonChooser.addOption("Off", null);
     autonChooser.addOption("AutoLevel", new AutoLevel(drivetrain));
     mainTab.add(autonChooser).withSize(2, 1);
     // Configure the trigger bindings
