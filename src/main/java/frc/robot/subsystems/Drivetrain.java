@@ -59,8 +59,16 @@ public class Drivetrain extends SubsystemBase {
       Ports.kBrakeReversePort
     );
     drive = new DifferentialDrive(l1,r1);
+
     lEncoder=l1.getEncoder();
+    lEncoder.setPositionConversionFactor(RobotConstruction.kPositionConversionFactor);
+    lEncoder.setVelocityConversionFactor(RobotConstruction.kVelocityConversionFactor);
+
     rEncoder=r1.getEncoder();
+    rEncoder.setPositionConversionFactor(RobotConstruction.kPositionConversionFactor);
+    rEncoder.setVelocityConversionFactor(RobotConstruction.kVelocityConversionFactor);
+
+
     kinematics = new DifferentialDriveKinematics(RobotConstruction.kTrackWidth);
     odometry = new DifferentialDriveOdometry(
       getRotation2d(), getLeftDistance(), getRightDistance()
