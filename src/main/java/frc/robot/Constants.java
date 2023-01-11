@@ -72,6 +72,6 @@ public final class Constants {
       backLowPosition = 0,
       intakePostion = 0,
       frontLowPosition = 0,
-      frontMidllePos = 0;
+      frontMidllePosition = 0;
   }
 }
