@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
@@ -85,16 +86,24 @@ public class Arm extends ProfiledPIDSubsystem {
       //retract arm and wait for it to reach limit
       new SequentialCommandGroup(
         retractArm(),
-        new WaitUntilCommand(this::getBoomLimit).withTimeout(3)
-        //new MoveArm(this, value)
+        new WaitUntilCommand(this::getBoomLimit).withTimeout(3),
+        setGoalCommand(value)
       ),
       //if collision will not happen move arm
       setGoalCommand(value), 
       //when the goal and curent position are on differnt sides of the robot the arm must be retracted
       ()->(Math.signum(value)!=Math.signum(this.getMeasurement()))||value==0
-    );
+    ).until(this::atGoal);
   }
-  
+
+  public CommandBase moveToBackTopPosition(){return moveArm(RobotConstruction.backTopPosition);}
+  public CommandBase moveToBackMiddlePostion(){return moveArm(RobotConstruction.backMidPosistion);}
+  public CommandBase moveToBackLowPosition(){return moveArm(RobotConstruction.backLowPosition);}
+  public CommandBase moveToZeroPosition(){return moveArm(0).andThen(()->disable());}
+  public CommandBase moveToIntakePosition(){return moveArm(RobotConstruction.intakePostion);}
+  public CommandBase moveToFrontGroudPosition(){return moveArm(RobotConstruction.frontLowPosition);}
+  public CommandBase moveToFrontMiddlePosition(){return moveArm(RobotConstruction.frontMidllePos);}
+
 
 
   @Override
