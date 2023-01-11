@@ -47,7 +47,7 @@ public class RobotContainer {
       new SequentialCommandGroup(
         arm.retractArm(),
         new WaitUntilCommand(arm::getBoomLimit).withTimeout(3),
-        arm.setGoalCommand(value)
+        new MoveArm(arm, value)
       ),
       //if collision will not happen move arm
       new MoveArm(arm, value), 
