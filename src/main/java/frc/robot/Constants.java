@@ -65,6 +65,10 @@ public final class Constants {
   public static class RobotConstruction{
     /*meters */
     public static final double kTrackWidth = 0;
+    /**meters */ //10.71 is gearing ratio //wheel diameter is 6
+    public static final double kPositionConversionFactor = 1/(10.71*Math.PI*6);
+    /**meters per second */
+    public static final double kVelocityConversionFactor = kPositionConversionFactor/60;
     /*radians */
     public static final double kArmEncoderOffset = 0;
     /**radians */
