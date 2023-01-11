@@ -20,7 +20,10 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
 public class Arm extends ProfiledPIDSubsystem {
   private static CANSparkMax m1, m2;
@@ -78,26 +81,31 @@ public class Arm extends ProfiledPIDSubsystem {
 
   public CommandBase setGoalCommand(double goal){return runOnce(()->setGoal(goal));}
 
-  public CommandBase posistion0(){
-    return Commands.sequence(
+  private CommandBase moveArm(double value){
+    return new ConditionalCommand(
+      //retract arm and wait for it to reach limit
+      new SequentialCommandGroup(
         retractArm(),
-        new MoveArm(this, RobotConstruction.kArmEncoderOffset),
-        openClaw()
-      );
-    }
-    public CommandBase posistion1(){return Commands.sequence(new MoveArm(this, 0),extendArm());}
-    public CommandBase posistion2(){return Commands.sequence(retractArm(), new MoveArm(this, 0));}
-    public CommandBase posistion3(){return Commands.sequence(new MoveArm(this, 0),extendArm());}
+        new WaitUntilCommand(this::getBoomLimit).withTimeout(3)
+        //new MoveArm(this, value)
+      ),
+      //if collision will not happen move arm
+      runOnce(()->setGoal(value)), 
+      //when the goal and curent position are on differnt sides of the robot the arm must be retracted
+      ()->(Math.signum(value)!=Math.signum(this.getMeasurement()))||value==0
+    );
+  }
 
-    @Override
-    public void useOutput(double output, TrapezoidProfile.State setpoint) {
-      if(extention.get()==Value.kForward){
-        m1.setVoltage(output+feedForward.calculate(setpoint.position, setpoint.velocity)+extendedKSdelta);
-      }
-      else{m1.setVoltage(output+feedForward.calculate(setpoint.position, setpoint.velocity));}
-      //add the calculated feedforward to the pid output to get the motor output
-      
+
+  @Override
+  public void useOutput(double output, TrapezoidProfile.State setpoint) {
+    if(extention.get()==Value.kForward){
+      m1.setVoltage(output+feedForward.calculate(setpoint.position, setpoint.velocity)+extendedKSdelta);
     }
+    else{m1.setVoltage(output+feedForward.calculate(setpoint.position, setpoint.velocity));}
+    //add the calculated feedforward to the pid output to get the motor output
+    
+  }
   @Override
   public double getMeasurement() {
     // Return the process variable measurement here
