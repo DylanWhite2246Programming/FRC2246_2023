@@ -66,5 +66,12 @@ public final class Constants {
     public static final double kArmEncoderOffset = 0;
     /**radians */
     public static final double kCollisionAngle = 0;
+    public static final double 
+      backTopPosition = 0,
+      backMidPosistion  = 0,
+      backLowPosition = 0,
+      intakePostion = 0,
+      frontLowPosition = 0,
+      frontMidllePos = 0;
   }
 }
