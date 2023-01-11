@@ -34,12 +34,7 @@ public class Arm extends ProfiledPIDSubsystem {
     Ports.kExtentionForwardPort,
     Ports.kExtentionReversePort
   );
-  private static DoubleSolenoid stopper = new DoubleSolenoid(
-    PneumaticsModuleType.REVPH, 
-    Ports.kStopperForwardPort, 
-    Ports.kStopperReversePort
-  );
-  private static DigitalInput lowerLimit, upperLimit;
+  private static DigitalInput lowerLimit, upperLimit,boomLimit;
   private static DutyCycleEncoder encoder;
   private static final double extendedKSdelta=0;
   private static final ArmFeedforward feedForward = new ArmFeedforward(0, 0, 0, 0);//TODO set values
@@ -58,6 +53,7 @@ public class Arm extends ProfiledPIDSubsystem {
     m2 = new CANSparkMax(Ports.kArmMotor2Port, MotorType.kBrushless);
     lowerLimit = new DigitalInput(Ports.kArmLowerLimitPort);
     upperLimit = new DigitalInput(Ports.kArmUpperLimitPort);
+    boomLimit = new DigitalInput(Ports.kBoomLimitPort);
     encoder = new DutyCycleEncoder(Ports.kArmEncoderPort);
 
     //configured variables
@@ -66,14 +62,12 @@ public class Arm extends ProfiledPIDSubsystem {
     m2.follow(m1);
   }
 
-  /**
-   * @return state of lower limit true = pressed
-   */
+  /** @return state of lower limit true = pressed*/
   public boolean getLowerLimit(){return lowerLimit.get();}
-  /**
-   * @return state of upper limit true = pressed
-   */
+  /** @return state of upper limit true = pressed*/
   public boolean getUpperLimit(){return upperLimit.get();}
+  /** @return state of the boom limit */
+  public boolean getBoomLimit(){return boomLimit.get();}
   public boolean atGoal(){return getController().atGoal();}
 
   
@@ -81,13 +75,10 @@ public class Arm extends ProfiledPIDSubsystem {
   public CommandBase closeClaw(){return runOnce(()->claw.set(Value.kReverse));}
   public CommandBase extendArm(){return runOnce(()->extention.set(Value.kForward));}
   public CommandBase retractArm(){return runOnce(()->extention.set(Value.kReverse));}
-  public CommandBase extendStopper(){return runOnce(()->stopper.set(Value.kForward));}
-  public CommandBase retractStopper(){return runOnce(()->stopper.set(Value.kReverse));}
 
   public CommandBase posistion0(){
     return Commands.sequence(
         retractArm(),
-        retractStopper(),
         new MoveArm(this, RobotConstruction.kArmEncoderOffset),
         openClaw()
       );
