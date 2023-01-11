@@ -9,21 +9,24 @@ import frc.robot.Constants.RobotConstruction;
 import frc.robot.subsystems.Arm;
 
 public class MoveArm extends CommandBase {
-  Arm arm; double position;
+  Arm arm; double goal;
   /** Creates a new MoveArm. */
   public MoveArm(Arm arm, double position) {
     this.arm = arm;
-    this.position = position;
+    goal = position;
     addRequirements(arm);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    if(Math.signum(goal)!=Math.signum(arm.getMeasurement())){
+      arm.retractArm().schedule();
+    }
     if(arm.getMeasurement()<RobotConstruction.kArmEncoderOffset+Math.toRadians(5)){
       arm.disable();
     }else{
-      arm.setGoal(position);
+      arm.setGoal(goal);
       arm.enable();
     }
   }
