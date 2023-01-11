@@ -76,6 +76,8 @@ public class Arm extends ProfiledPIDSubsystem {
   public CommandBase extendArm(){return runOnce(()->extention.set(Value.kForward));}
   public CommandBase retractArm(){return runOnce(()->extention.set(Value.kReverse));}
 
+  public CommandBase setGoalCommand(double goal){return runOnce(()->setGoal(goal));}
+
   public CommandBase posistion0(){
     return Commands.sequence(
         retractArm(),
