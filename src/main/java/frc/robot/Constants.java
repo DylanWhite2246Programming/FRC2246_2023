@@ -4,12 +4,14 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.util.Units;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -64,9 +66,9 @@ public final class Constants {
   }
   public static class RobotConstruction{
     /*meters */
-    public static final double kTrackWidth = 0;
+    public static final double kTrackWidth = Units.inchesToMeters(0);
     /**meters */ //10.71 is gearing ratio //wheel diameter is 6
-    public static final double kPositionConversionFactor = 1/(10.71*Math.PI*6);
+    public static final double kPositionConversionFactor = 1/(10.71*Math.PI*Units.inchesToMeters(6));
     /**meters per second */
     public static final double kVelocityConversionFactor = kPositionConversionFactor/60;
     /*radians */
