@@ -17,6 +17,11 @@ public class Vision extends SubsystemBase {
   /** Creates a new Vision. */
   public Vision() {}
 
+  /**
+   * @param pipe sets pipe 0 = april, 1 = cone, 2 = cube
+   */
+  public void setPipeline(int pipe){cam.setPipelineIndex(pipe);}
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
