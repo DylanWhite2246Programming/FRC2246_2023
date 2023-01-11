@@ -41,22 +41,6 @@ public class RobotContainer {
   private static final Drivetrain drivetrain = new Drivetrain();
   private static final Arm arm = new Arm();
 
-  private static CommandBase moveArm(double value){
-    return new ConditionalCommand(
-      //retract arm and wait for it to reach limit
-      new SequentialCommandGroup(
-        arm.retractArm(),
-        new WaitUntilCommand(arm::getBoomLimit).withTimeout(3),
-        new MoveArm(arm, value)
-      ),
-      //if collision will not happen move arm
-      new MoveArm(arm, value), 
-      //when the goal and curent position are on differnt sides of the robot the arm must be retracted
-      ()->(Math.signum(value)!=Math.signum(arm.getMeasurement()))||value==0
-    );
-  }
-
-
   public CommandBase disengageBrake(){return drivetrain.disengageBrake();}
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
