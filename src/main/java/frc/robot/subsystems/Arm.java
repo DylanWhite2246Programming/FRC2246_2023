@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
@@ -102,7 +101,7 @@ public class Arm extends ProfiledPIDSubsystem {
   public CommandBase moveToZeroPosition(){return moveArm(0).andThen(()->disable());}
   public CommandBase moveToIntakePosition(){return moveArm(RobotConstruction.intakePostion);}
   public CommandBase moveToFrontGroudPosition(){return moveArm(RobotConstruction.frontLowPosition);}
-  public CommandBase moveToFrontMiddlePosition(){return moveArm(RobotConstruction.frontMidllePos);}
+  public CommandBase moveToFrontMiddlePosition(){return moveArm(RobotConstruction.frontMidllePosition);}
 
 
 
