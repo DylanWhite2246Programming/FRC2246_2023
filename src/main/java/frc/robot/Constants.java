@@ -42,6 +42,7 @@ public final class Constants {
     public static final int kArmEncoderPort = 0;
     public static final int kArmLowerLimitPort = 1;
     public static final int kArmUpperLimitPort = 2;
+    public static final int kBoomLimitPort = 3;
   }
   public static class AutonConstants{
     public static final PIDController kLeftController = 
@@ -63,7 +64,9 @@ public final class Constants {
   public static class RobotConstruction{
     /*meters */
     public static final double kTrackWidth = 0;
-    /*degrees */
+    /*radians */
     public static final double kArmEncoderOffset = 0;
+    /**radians */
+    public static final double kCollisionAngle = 0;
   }
 }
