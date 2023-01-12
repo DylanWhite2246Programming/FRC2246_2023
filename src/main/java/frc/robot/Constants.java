@@ -8,8 +8,10 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 
@@ -59,6 +61,9 @@ public final class Constants {
     public static final double kDriveXKp = 
       (kLeftController.getP()+kRightController.getP())/2;
   } 
+  public static class FieldConstants{
+    //public static final Translation2d 
+  }
   public static class OperatorConstants {
     /*percent */
     public static final double kDriveStraightThreashold = .0075;
