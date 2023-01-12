@@ -35,9 +35,9 @@ public class Arm extends ProfiledPIDSubsystem {
     Ports.kExtentionForwardPort,
     Ports.kExtentionReversePort
   );
-  private static DigitalInput lowerLimit, upperLimit,boomLimit;
+  private static DigitalInput lowerLimit, upperLimit, boomLimit;
   private static DutyCycleEncoder encoder;
-  private static final double extendedKSdelta=0;
+  private static final double extendedKSdelta = 0;
   private static final ArmFeedforward feedForward = new ArmFeedforward(0, 0, 0, 0);//TODO set values
   /** Creates a new Arm. */
   public Arm() {
@@ -107,7 +107,7 @@ public class Arm extends ProfiledPIDSubsystem {
 
   @Override
   public void useOutput(double output, TrapezoidProfile.State setpoint) {
-    if(extention.get()==Value.kForward){
+    if(getBoomLimit()){
       m1.setVoltage(output+feedForward.calculate(setpoint.position, setpoint.velocity)+extendedKSdelta);
     }
     else{m1.setVoltage(output+feedForward.calculate(setpoint.position, setpoint.velocity));}
