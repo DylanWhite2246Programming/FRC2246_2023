@@ -8,8 +8,6 @@ import frc.robot.Constants.AutonConstants;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 
 public final class Autos {
