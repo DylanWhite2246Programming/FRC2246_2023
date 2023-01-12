@@ -38,7 +38,8 @@ public class Arm extends ProfiledPIDSubsystem {
   private static DigitalInput lowerLimit, upperLimit, boomLimit;
   private static DutyCycleEncoder encoder;
   private static final double extendedKSdelta = 0;
-  private static final ArmFeedforward feedForward = new ArmFeedforward(0, 0, 0, 0);//TODO set values
+  private static final ArmFeedforward feedForward 
+    = new ArmFeedforward(0, 0, 0, 0);//TODO set values
   /** Creates a new Arm. */
   public Arm() {
     super(
