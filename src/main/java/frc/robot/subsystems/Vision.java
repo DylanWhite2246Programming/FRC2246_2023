@@ -43,9 +43,7 @@ public class Vision extends SubsystemBase {
    */
   public void setPipeline(int pipe){cam.setPipelineIndex(pipe);}
 
-  public void setReferencePose(Pose3d refrencePose){
-    
-  }
+  public void setReferencePose(Pose3d refrencePose){} //TODO figure this out
 
   public Pair<Pose2d, Double> getEstimatedGlobalPose(Pose2d prevEstimatedRobotPose) {
     poseEstimator.setReferencePose(prevEstimatedRobotPose);
