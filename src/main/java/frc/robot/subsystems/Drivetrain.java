@@ -145,12 +145,23 @@ public class Drivetrain extends SubsystemBase {
     );
   }
 
+  /*
   public void updateOdometry(){
     drivePoseEstimator.update(
       getRotation2d(), getLeftDistance(), getRightDistance()
     );
-  }
 
+    Pair<Pose2d, Double> result = 
+      vision.getEstimatedGlobalPose(drivePoseEstimator.getEstimatedPosition());
+    var camPose = result.getFirst();
+    var camPoseObsTime = result.getSecond();
+    if(camPose != null){
+      drivePoseEstimator.addVisionMeasurement(camPose, camPoseObsTime);
+    }else{
+
+    }
+  }
+  */
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
