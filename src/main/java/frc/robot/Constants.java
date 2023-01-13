@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -79,30 +81,31 @@ public final class Constants {
         DriverStation.getAlliance()==Alliance.Blue?7.07:feildLength-7.07, 4.59
       );
     }
-    public static Translation2d getP00(){return new Translation2d(
-        DriverStation.getAlliance()==Alliance.Blue?.669:feildLength-.669, .508
-      );
+    /**
+     * @param row the row the peg is in 0 = low; 1 = high
+     * @param column the column the peg is in 0 is closest to the wall
+     * @return the translation of the peg using the global position origin
+     */
+    public static Translation2d getPeg(int row, int column){
+      double x,y;
+      switch (row){
+        case 0: x = .669; break;
+        case 1: x = .236474; break;
+        default: x=0;
+      }
+      switch(column){
+        case 0: y =  .508; break;
+        case 1: y = 1.626; break;
+        case 2: y = 2.235; break;
+        case 3: y = 3.353; break;
+        case 4: y = 3.912; break;
+        case 5: y = 5.029; break;
+        default: y=0;
+      }
+      //if red alliance change the pegs to the other side of the field
+      if(DriverStation.getAlliance()==Alliance.Red){x=feildLength-x;}
+      return new Translation2d(x, y);
     }
-    public static Translation2d getP01(){return new Translation2d(
-        DriverStation.getAlliance()==Alliance.Blue?.669:feildLength-.669, 1.626
-      );
-    }
-    public static Translation2d getP02(){return new Translation2d(
-        DriverStation.getAlliance()==Alliance.Blue?.669:feildLength-.669, 2.235 
-      );
-    }
-    public static Translation2d getP03(){return new Translation2d(
-      DriverStation.getAlliance()==Alliance.Blue?.669:feildLength-.669, 3.353
-      );
-    }
-    public static Translation2d getP04(){return new Translation2d(
-        DriverStation.getAlliance()==Alliance.Blue?.669:feildLength-.669, 3.912
-      );
-    }
-    public static Translation2d getP05(){return new Translation2d(
-      DriverStation.getAlliance()==Alliance.Blue?.669:feildLength-.669, 5.029
-    );
-  }
   }
   public static class OperatorConstants {
     /*percent */
