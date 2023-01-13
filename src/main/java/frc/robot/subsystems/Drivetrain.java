@@ -74,11 +74,12 @@ public class Drivetrain extends SubsystemBase {
       getRotation2d(), getLeftDistance(), getRightDistance()
     );
     drivePoseEstimator = new DifferentialDrivePoseEstimator(
-      kinematics, getRotation2d(), getLeftDistance(), getRightDistance(), 
-      new Pose2d(0, 0, new Rotation2d(0)),//TODO figure that out 
-      new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.02, 0.02, 0.01), // Local measurement standard deviations. Left encoder, right encoder, gyro.
-      new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.1, 0.1, 0.01)// Global measurement standard deviations. X, Y, and theta
-    ); 
+      kinematics, 
+      getRotation2d(), 
+      getLeftDistance(),
+      getRightDistance(), 
+      getPose2d()
+    );
     turnController = new PIDController(.5, 0, 0);
       
     //zero yaw for beginning of match
