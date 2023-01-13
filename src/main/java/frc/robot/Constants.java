@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -95,6 +96,15 @@ public final class Constants {
       //if red alliance change the pegs to the other side of the field
       if(DriverStation.getAlliance()==Alliance.Red){x=feildLength-x;}
       return new Translation2d(x, columnYArray[column]);
+    }
+    public static Translation2d choosePeg(int row, Pose2d robotPose){
+      int choosenPeg=0; double shortestDistance=-1;
+      for(int i=0;i<=5;i++){
+        if(robotPose.getTranslation().getDistance(getPeg(row, i))<shortestDistance||shortestDistance==-1){
+          shortestDistance=robotPose.getTranslation().getDistance(getPeg(row, i));
+        }
+      }
+      return getPeg(row, choosenPeg);
     }
   }
   public static class OperatorConstants {
