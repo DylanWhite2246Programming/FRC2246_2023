@@ -44,9 +44,11 @@ public class Drivetrain extends SubsystemBase {
   private static PIDController turnController;
 
   private DifferentialDrivePoseEstimator drivePoseEstimator;
+  private Vision vision;
 
   /** Creates a new ExampleSubsystem. */
-  public Drivetrain() {
+  public Drivetrain(Vision vision) {
+    this.vision = vision;
     //define variables
     l1 = new CANSparkMax(Ports.kL1CANID, MotorType.kBrushless);
     l2 = new CANSparkMax(Ports.kL2CANID, MotorType.kBrushless);

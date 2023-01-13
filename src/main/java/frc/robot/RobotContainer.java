@@ -8,6 +8,7 @@ import frc.robot.Team2246.Drivestation;
 import frc.robot.commands.AutoLevel;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Vision;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -34,7 +35,8 @@ public class RobotContainer {
   ShuffleboardTab mainTab = Shuffleboard.getTab("Main Tab");
   //Sendable chooser to select autonomus command
   SendableChooser<CommandBase> autonChooser = new SendableChooser<CommandBase>();
-  private static final Drivetrain drivetrain = new Drivetrain();
+  private static final Vision vision = new Vision();
+  private static final Drivetrain drivetrain = new Drivetrain(vision);
   private static final Arm arm = new Arm();
 
   public CommandBase disengageBrake(){return drivetrain.disengageBrake();}
@@ -78,6 +80,6 @@ public class RobotContainer {
   }
 
   public void updatePose(){
-    
+
   }
 }
