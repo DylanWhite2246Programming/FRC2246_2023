@@ -24,12 +24,11 @@ import frc.robot.Constants.RobotConstruction;
 public class Vision extends SubsystemBase {
   AprilTagFieldLayout aprilTagFieldLayout; //= new AprilTagFieldLayout(AprilTagFieldLayout.loadFromResource(AprilTagFields.k2022RapidReact.m_resourceFile));
   PhotonCamera cam = new PhotonCamera("photonvision");
-  ArrayList camList;
   RobotPoseEstimator poseEstimator;
   ShuffleboardTab camera, pose;
   /** Creates a new Vision. */
   public Vision() {
-    camList = new ArrayList<Pair<PhotonCamera, Transform3d>>();
+    var camList = new ArrayList<Pair<PhotonCamera, Transform3d>>();
     camList.add(new Pair<PhotonCamera, Transform3d>(cam, RobotConstruction.kRobotToCam));
     poseEstimator = new RobotPoseEstimator(
       aprilTagFieldLayout, 
