@@ -145,6 +145,12 @@ public class Drivetrain extends SubsystemBase {
     );
   }
 
+  public void updateOdometry(){
+    drivePoseEstimator.update(
+      getRotation2d(), getLeftDistance(), getRightDistance()
+    );
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
