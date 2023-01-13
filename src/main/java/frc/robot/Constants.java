@@ -81,30 +81,20 @@ public final class Constants {
         DriverStation.getAlliance()==Alliance.Blue?7.07:feildLength-7.07, 4.59
       );
     }
+    private static final double[] rowXArray 
+      = new double[]{.669,.236474};
+    private static final double[] columnYArray 
+      = new double[]{.508,1.626,2.235,3.353,3.912,5.029};
     /**
      * @param row the row the peg is in 0 = low; 1 = high
      * @param column the column the peg is in 0 is closest to the wall
      * @return the translation of the peg using the global position origin
      */
     public static Translation2d getPeg(int row, int column){
-      double x,y;
-      switch (row){
-        case 0: x = .669; break;
-        case 1: x = .236474; break;
-        default: x=0;
-      }
-      switch(column){
-        case 0: y =  .508; break;
-        case 1: y = 1.626; break;
-        case 2: y = 2.235; break;
-        case 3: y = 3.353; break;
-        case 4: y = 3.912; break;
-        case 5: y = 5.029; break;
-        default: y=0;
-      }
+      double x = rowXArray[row];
       //if red alliance change the pegs to the other side of the field
       if(DriverStation.getAlliance()==Alliance.Red){x=feildLength-x;}
-      return new Translation2d(x, y);
+      return new Translation2d(x, columnYArray[column]);
     }
   }
   public static class OperatorConstants {
