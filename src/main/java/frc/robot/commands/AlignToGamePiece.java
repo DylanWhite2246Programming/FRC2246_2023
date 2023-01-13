@@ -18,7 +18,8 @@ public class AlignToGamePiece extends CommandBase {
   double error;
   /**
    * @param mag forward component
-   * @param piece 
+   * @param piece the game piece to target
+   * @param drive drive train
    */
   public AlignToGamePiece(
     DoubleSupplier mag, 
@@ -42,12 +43,14 @@ public class AlignToGamePiece extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(vision.hasTarget()){}
+    if(vision.hasTarget()){
+
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {vision.setPipeline(0);}
 
   // Returns true when the command should end.
   @Override

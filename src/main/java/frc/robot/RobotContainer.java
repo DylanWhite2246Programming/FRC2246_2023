@@ -76,4 +76,8 @@ public class RobotContainer {
     //return selected auton to run
     return autonChooser.getSelected();
   }
+
+  public void updatePose(){
+    
+  }
 }
