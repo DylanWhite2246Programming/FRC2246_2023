@@ -62,23 +62,47 @@ public final class Constants {
       (kLeftController.getP()+kRightController.getP())/2;
   } 
   public static class FieldConstants{
-    public static double feildLength=0;
+    public static double feildLength=0,feildWidth=0;
     public static Translation2d getGP0(){return new Translation2d(
-        DriverStation.getAlliance()==Alliance.Red?feildLength-7.07:7.07, .92
+        DriverStation.getAlliance()==Alliance.Blue?7.07:feildLength-7.07, .92
       );
     }
     public static Translation2d getGP1(){return new Translation2d(
-        DriverStation.getAlliance()==Alliance.Red?feildLength-7.07:7.07, 2.14
+        DriverStation.getAlliance()==Alliance.Blue?7.07:feildLength-7.07, 2.14
       );
     }
     public static Translation2d getGP2(){return new Translation2d(
-        DriverStation.getAlliance()==Alliance.Red?feildLength-7.07:7.07, 3.36
+        DriverStation.getAlliance()==Alliance.Blue?7.07:feildLength-7.07, 3.36
       );
     }
     public static Translation2d getGP3(){return new Translation2d(
-        DriverStation.getAlliance()==Alliance.Red?feildLength-7.07:7.07, 4.59
+        DriverStation.getAlliance()==Alliance.Blue?7.07:feildLength-7.07, 4.59
       );
     }
+    public static Translation2d getP00(){return new Translation2d(
+        DriverStation.getAlliance()==Alliance.Blue?.669:feildLength-.669, .508
+      );
+    }
+    public static Translation2d getP01(){return new Translation2d(
+        DriverStation.getAlliance()==Alliance.Blue?.669:feildLength-.669, 1.626
+      );
+    }
+    public static Translation2d getP02(){return new Translation2d(
+        DriverStation.getAlliance()==Alliance.Blue?.669:feildLength-.669, 2.235 
+      );
+    }
+    public static Translation2d getP03(){return new Translation2d(
+      DriverStation.getAlliance()==Alliance.Blue?.669:feildLength-.669, 3.353
+      );
+    }
+    public static Translation2d getP04(){return new Translation2d(
+        DriverStation.getAlliance()==Alliance.Blue?.669:feildLength-.669, 3.912
+      );
+    }
+    public static Translation2d getP05(){return new Translation2d(
+      DriverStation.getAlliance()==Alliance.Blue?.669:feildLength-.669, 5.029
+    );
+  }
   }
   public static class OperatorConstants {
     /*percent */
