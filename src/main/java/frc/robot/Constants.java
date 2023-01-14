@@ -109,7 +109,25 @@ public final class Constants {
       }
       return getPeg(row, choosenPeg);
     }
-
+    private static final double[] shelfRowXArray
+      = new double[]{.286,.505};
+    private static final double[] shelfColumnYArray
+      = new double[]{1.07,2.743,4.42};
+    public static Translation2d getShelf(int row, int column){
+      double x = shelfRowXArray[row];
+      //if red alliance change the pegs to the other side of the field
+      if(DriverStation.getAlliance()==Alliance.Red){x=feildLength-x;}
+      return new Translation2d(x, shelfColumnYArray[column]);
+    }
+    public static Translation2d chooseShelf(int row, Pose2d robotPose){
+      int choosenShelf=0; double shortestDistance=-1;
+      for(int i=0;i<=2;i++){
+        if(robotPose.getTranslation().getDistance(getShelf(row, i))<shortestDistance||shortestDistance==-1){
+          shortestDistance=robotPose.getTranslation().getDistance(getShelf(row, i));
+        }
+      }
+      return getShelf(row, choosenShelf);
+    }
   }
   public static class OperatorConstants {
     /*percent */
