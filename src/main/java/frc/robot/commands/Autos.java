@@ -54,7 +54,7 @@ public final class Autos {
       arm.openClaw(),
       ramseteCommandGenerator(drivetrain, DriverStation.getAlliance()==Alliance.Blue?null:null)//drive to next game piece
         .alongWith(arm.moveToIntakePosition()),
-      arm.closeClaw(),
+      arm.closeClawCube(),
       new WaitCommand(.25),
       ramseteCommandGenerator(drivetrain, DriverStation.getAlliance()==Alliance.Blue?null:null)//move to goal
         .alongWith(arm.moveToBackMiddlePostion()),
@@ -64,24 +64,24 @@ public final class Autos {
       new AutoLevel(drivetrain)
     );
   }
-  public static CommandBase threeGamePiecesAndLevel(Drivetrain drivetrain, Arm arm){
+  public static CommandBase threeGamePieces(Drivetrain drivetrain, Arm arm){
     return new SequentialCommandGroup(
       arm.moveToBackTopPosition(),
       arm.openClaw(),
       ramseteCommandGenerator(drivetrain, DriverStation.getAlliance()==Alliance.Blue?null:null)//drive to next game piece
         .alongWith(arm.moveToIntakePosition()),
-      arm.closeClaw(),
+      arm.closeClawCube(),
       new WaitCommand(.25),
       ramseteCommandGenerator(drivetrain, DriverStation.getAlliance()==Alliance.Blue?null:null)//move to goal
         .alongWith(arm.moveToBackMiddlePostion()),
       arm.openClaw(),
       ramseteCommandGenerator(drivetrain, DriverStation.getAlliance()==Alliance.Blue?null:null)//move to next game piece
         .alongWith(arm.moveToIntakePosition()),
-      arm.closeClaw(),
+      arm.closeClawCone(),
       new WaitCommand(.25),
       ramseteCommandGenerator(drivetrain, DriverStation.getAlliance()==Alliance.Blue?null:null)//move to goal
         .alongWith(arm.moveToBackMiddlePostion()),
-      arm.closeClaw(),
+      arm.closeClawCone(),
       ramseteCommandGenerator(drivetrain, DriverStation.getAlliance()==Alliance.Blue?null:null)//move to center field
     );
   }
