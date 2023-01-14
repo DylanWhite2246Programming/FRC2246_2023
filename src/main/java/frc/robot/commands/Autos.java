@@ -5,10 +5,16 @@
 package frc.robot.commands;
 
 import frc.robot.Constants.AutonConstants;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public final class Autos {
   /** TODO
@@ -41,6 +47,54 @@ public final class Autos {
   //public static CommandBase autoLevel(Drivetrain drivetrain){
   //  return Commands.sequence(d)
   //}
+
+  public static CommandBase twoGamePiecesAndLevel(Drivetrain drivetrain, Arm arm){
+    return new SequentialCommandGroup(
+      arm.moveToBackTopPosition(),
+      arm.openClaw(),
+      ramseteCommandGenerator(drivetrain, DriverStation.getAlliance()==Alliance.Blue?null:null)//drive to next game piece
+        .alongWith(arm.moveToIntakePosition()),
+      arm.closeClaw(),
+      new WaitCommand(.25),
+      ramseteCommandGenerator(drivetrain, DriverStation.getAlliance()==Alliance.Blue?null:null)//move to goal
+        .alongWith(arm.moveToBackMiddlePostion()),
+      arm.openClaw(),
+      ramseteCommandGenerator(drivetrain, DriverStation.getAlliance()==Alliance.Blue?null:null)//drive to scale
+        .alongWith(arm.moveToZeroPosition()),
+      new AutoLevel(drivetrain)
+    );
+  }
+  public static CommandBase threeGamePiecesAndLevel(Drivetrain drivetrain, Arm arm){
+    return new SequentialCommandGroup(
+      arm.moveToBackTopPosition(),
+      arm.openClaw(),
+      ramseteCommandGenerator(drivetrain, DriverStation.getAlliance()==Alliance.Blue?null:null)//drive to next game piece
+        .alongWith(arm.moveToIntakePosition()),
+      arm.closeClaw(),
+      new WaitCommand(.25),
+      ramseteCommandGenerator(drivetrain, DriverStation.getAlliance()==Alliance.Blue?null:null)//move to goal
+        .alongWith(arm.moveToBackMiddlePostion()),
+      arm.openClaw(),
+      ramseteCommandGenerator(drivetrain, DriverStation.getAlliance()==Alliance.Blue?null:null)//move to next game piece
+        .alongWith(arm.moveToIntakePosition()),
+      arm.closeClaw(),
+      new WaitCommand(.25),
+      ramseteCommandGenerator(drivetrain, DriverStation.getAlliance()==Alliance.Blue?null:null)//move to goal
+        .alongWith(arm.moveToBackMiddlePostion()),
+      arm.closeClaw(),
+      ramseteCommandGenerator(drivetrain, DriverStation.getAlliance()==Alliance.Blue?null:null)//move to center field
+    );
+  }
+  public static CommandBase oneGamePieceAndLevel(Drivetrain drivetrain, Arm arm){
+    return new SequentialCommandGroup(
+      arm.moveToBackTopPosition(),
+      arm.openClaw(),
+      //move to beond the scale to taxi and then get on scale
+      ramseteCommandGenerator(drivetrain, DriverStation.getAlliance()==Alliance.Blue?null:null)
+        .alongWith(arm.moveToZeroPosition()),
+      new AutoLevel(drivetrain)  
+    );
+  }
 
   private Autos() {
     throw new UnsupportedOperationException("This is a utility class!");

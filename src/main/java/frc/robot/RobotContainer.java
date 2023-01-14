@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.Team2246.Drivestation;
 import frc.robot.commands.AutoLevel;
+import frc.robot.commands.Autos;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Vision;
@@ -44,6 +45,12 @@ public class RobotContainer {
   public RobotContainer() {
     autonChooser.addOption("Off", null);
     autonChooser.addOption("AutoLevel", new AutoLevel(drivetrain));
+    autonChooser.addOption("2 gp and balance left",  Autos.twoGamePiecesAndLevel(drivetrain, arm));
+    autonChooser.addOption("2 gp and balance right", Autos.twoGamePiecesAndLevel(drivetrain, arm));
+    autonChooser.addOption("3 gp left",  Autos.twoGamePiecesAndLevel(drivetrain, arm));
+    autonChooser.addOption("3 gp right", Autos.twoGamePiecesAndLevel(drivetrain, arm));
+    autonChooser.addOption("1 gp and balance", Autos.oneGamePieceAndLevel(drivetrain, arm));
+
     mainTab.add(autonChooser).withSize(2, 1);
     // Configure the trigger bindings
     configureBindings();
