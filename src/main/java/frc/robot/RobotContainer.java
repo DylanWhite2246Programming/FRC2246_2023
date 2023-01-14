@@ -47,8 +47,8 @@ public class RobotContainer {
     autonChooser.addOption("AutoLevel", new AutoLevel(drivetrain));
     autonChooser.addOption("2 gp and balance left",  Autos.twoGamePiecesAndLevel(drivetrain, arm));
     autonChooser.addOption("2 gp and balance right", Autos.twoGamePiecesAndLevel(drivetrain, arm));
-    autonChooser.addOption("3 gp left",  Autos.twoGamePiecesAndLevel(drivetrain, arm));
-    autonChooser.addOption("3 gp right", Autos.twoGamePiecesAndLevel(drivetrain, arm));
+    autonChooser.addOption("3 gp left",  Autos.threeGamePieces(drivetrain, arm));
+    autonChooser.addOption("3 gp right", Autos.threeGamePieces(drivetrain, arm));
     autonChooser.addOption("1 gp and balance", Autos.oneGamePieceAndLevel(drivetrain, arm));
 
     mainTab.add(autonChooser).withSize(2, 1);
