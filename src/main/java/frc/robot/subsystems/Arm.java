@@ -25,10 +25,15 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
 public class Arm extends ProfiledPIDSubsystem {
   private static CANSparkMax m1, m2;
-  private static DoubleSolenoid claw = new DoubleSolenoid(
+  private static DoubleSolenoid cubeClaw = new DoubleSolenoid(
     PneumaticsModuleType.REVPH, 
-    Ports.kClawForwardPort, 
-    Ports.kClawReversePort
+    Ports.kCubeClawForwardPort, 
+    Ports.kCubeClawReversePort
+  );
+  private static DoubleSolenoid coneClaw = new DoubleSolenoid(
+    PneumaticsModuleType.REVPH, 
+    Ports.kConeClawForwardPort, 
+    Ports.kConeClawReversePort
   );
   private static DoubleSolenoid extention = new DoubleSolenoid(
     PneumaticsModuleType.REVPH, 
@@ -58,6 +63,10 @@ public class Arm extends ProfiledPIDSubsystem {
     boomLimit = new DigitalInput(Ports.kBoomLimitPort);
     encoder = new DutyCycleEncoder(Ports.kArmEncoderPort);
 
+    extention.set(Value.kReverse);
+    coneClaw.set(Value.kReverse);
+    cubeClaw.set(Value.kReverse);
+
     //configured variables
       //set distance per pulse as tau radians
     encoder.setDistancePerRotation(2*Math.PI);
@@ -73,8 +82,11 @@ public class Arm extends ProfiledPIDSubsystem {
   public boolean atGoal(){return getController().atGoal();}
 
   
-  public CommandBase openClaw(){return runOnce(()->claw.set(Value.kForward));}
-  public CommandBase closeClaw(){return runOnce(()->claw.set(Value.kReverse));}
+  //public CommandBase openClaw(){return runOnce(()->claw.set(Value.kForward));}
+  //public CommandBase closeClaw(){return runOnce(()->claw.set(Value.kReverse));}
+  public CommandBase openClaw(){return runOnce(()->{cubeClaw.set(Value.kForward);coneClaw.set(Value.kForward);});}
+  public CommandBase closeClawCone(){return runOnce(()->{cubeClaw.set(Value.kForward);coneClaw.set(Value.kReverse);});}
+  public CommandBase closeClawCube(){return runOnce(()->{cubeClaw.set(Value.kReverse);coneClaw.set(Value.kReverse);});}
   public CommandBase extendArm(){return runOnce(()->extention.set(Value.kForward));}
   public CommandBase retractArm(){return runOnce(()->extention.set(Value.kReverse));}
 

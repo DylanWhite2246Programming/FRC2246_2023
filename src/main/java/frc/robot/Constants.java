@@ -41,16 +41,19 @@ public final class Constants {
     public static final int kPHCANID = 7;
     //SOLENOIDS
     public static final int kBrakeForwardPort = 0;
-    public static final int kBrakeReversePort = 1;
-    public static final int kClawForwardPort = 2;
-    public static final int kClawReversePort = 3;
-    public static final int kExtentionForwardPort = 4;
-    public static final int kExtentionReversePort = 5;
+    public static final int kBrakeReversePort = 1;    
+    public static final int kCubeClawForwardPort = 2;
+    public static final int kConeClawForwardPort = 3;
+    public static final int kCubeClawReversePort = 4;
+    public static final int kConeClawReversePort = 5;
+    public static final int kExtentionForwardPort = 6;
+    public static final int kExtentionReversePort = 7;
     //DIO
     public static final int kArmEncoderPort = 0;
     public static final int kArmLowerLimitPort = 1;
     public static final int kArmUpperLimitPort = 2;
     public static final int kBoomLimitPort = 3;
+
   }
   public static class AutonConstants{
     public static final PIDController kLeftController = 
