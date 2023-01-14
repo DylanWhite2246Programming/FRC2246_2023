@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -82,7 +81,7 @@ public class Robot extends TimedRobot {
     }
     //three seconds after a sucesful auton relase brake this prevents
     //the scale from becoming unlevel do to a oporator input
-    if(Constants.autonSuccessful){new WaitCommand(3).andThen(m_robotContainer.disengageBrake());}
+    m_robotContainer.onTeleopInit();
   }
 
   /** This function is called periodically during operator control. */
