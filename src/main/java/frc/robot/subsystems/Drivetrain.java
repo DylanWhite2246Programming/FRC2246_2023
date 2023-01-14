@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.Ports;
 import frc.robot.Constants.RobotConstruction;
@@ -131,6 +132,9 @@ public class Drivetrain extends SubsystemBase {
   public CommandBase STOP(){return runOnce(()->drive.stopMotor());}
   public CommandBase engageBrake(){return STOP().andThen(runOnce(()->brakeSolenoid.set(Value.kReverse)));}
   public CommandBase disengageBrake(){return runOnce(()->brakeSolenoid.set(Value.kForward));}
+  /**@return true when brake engaged */
+  public boolean getBrake(){return brakeSolenoid.get()==Value.kForward;}
+  public Trigger getBrakeTrigger(){return new Trigger(this::getBrake);}
   public CommandBase operatorDrive(DoubleSupplier x, DoubleSupplier z){
     return run(
       ()->{
