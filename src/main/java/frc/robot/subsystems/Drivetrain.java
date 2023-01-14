@@ -84,8 +84,9 @@ public class Drivetrain extends SubsystemBase {
     turnController = new PIDController(.5, 0, 0);
       
     //zero yaw for beginning of match
-    l2.follow(l1); r2.follow(r1);
     navx.zeroYaw();
+    l2.follow(l1); r2.follow(r1);
+    l1.setInverted(true);
   }
 
   /**
