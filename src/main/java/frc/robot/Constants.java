@@ -8,7 +8,9 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
@@ -128,10 +130,13 @@ public final class Constants {
       intakePostion = 0,
       frontLowPosition = 0,
       frontMidllePosition = 0;
+    //robot to center intake claw
+    public static final Transform2d kRobotToIntake =
+      new Transform2d(new Translation2d(0, 0), new Rotation2d());  
     public static final Transform3d kRobotToCam =
       new Transform3d(
         new Translation3d(0, 0, 0), 
         new Rotation3d(0, 0, 0)
-      );
+    );
   }
 }
