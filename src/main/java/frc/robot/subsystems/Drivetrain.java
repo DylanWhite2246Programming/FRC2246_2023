@@ -59,6 +59,7 @@ public class Drivetrain extends SubsystemBase {
       Ports.kBrakeForwardPort, 
       Ports.kBrakeReversePort
     );
+    brakeSolenoid.set(Value.kReverse);
     drive = new DifferentialDrive(l1,r1);
 
     lEncoder=l1.getEncoder();
@@ -86,6 +87,7 @@ public class Drivetrain extends SubsystemBase {
     //zero yaw for beginning of match
     navx.zeroYaw();
     l2.follow(l1); r2.follow(r1);
+    //invert left side
     l1.setInverted(true);
   }
 
@@ -131,8 +133,9 @@ public class Drivetrain extends SubsystemBase {
   public DifferentialDriveKinematics getKinematics(){return kinematics;}
 
   public CommandBase STOP(){return runOnce(()->drive.stopMotor());}
-  public CommandBase engageBrake(){return STOP().andThen(runOnce(()->brakeSolenoid.set(Value.kReverse)));}
-  public CommandBase disengageBrake(){return runOnce(()->brakeSolenoid.set(Value.kForward));}
+  public CommandBase engageBrake(){return STOP().andThen(runOnce(()->brakeSolenoid.set(Value.kForward)));}
+  public CommandBase disengageBrake(){return runOnce(()->brakeSolenoid.set(Value.kReverse));}
+  public CommandBase toggleBrake(){return runOnce(()->brakeSolenoid.toggle());}
   /**@return true when brake engaged */
   public boolean getBrake(){return brakeSolenoid.get()==Value.kForward;}
   public Trigger getBrakeTrigger(){return new Trigger(this::getBrake);}
