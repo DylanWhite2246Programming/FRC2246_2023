@@ -10,6 +10,7 @@ import frc.robot.commands.Autos;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Vision;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -34,6 +35,8 @@ public class RobotContainer {
      0,
      0
     );
+  private SlewRateLimiter ySlewRateLimiter = new SlewRateLimiter(0, 0, 0);
+  private SlewRateLimiter zSlewRateLimiter = new SlewRateLimiter(0, 0, 0);
   ShuffleboardTab mainTab = Shuffleboard.getTab("Main Tab");
   //Sendable chooser to select autonomus command
   SendableChooser<CommandBase> autonChooser = new SendableChooser<CommandBase>();
@@ -52,6 +55,14 @@ public class RobotContainer {
     autonChooser.addOption("1 gp and balance", Autos.oneGamePieceAndLevel(drivetrain, arm));
 
     mainTab.add(autonChooser).withSize(2, 1);
+
+    drivetrain.setDefaultCommand(
+      drivetrain.operatorDrive(
+        ()->ySlewRateLimiter.calculate(drivestation.getLeftY()), 
+        ()->zSlewRateLimiter.calculate(drivestation.getRightX())
+      )
+    );
+
     // Configure the trigger bindings
     configureBindings();
   }
