@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -40,15 +41,14 @@ public class RobotContainer {
   private static final Drivetrain drivetrain = new Drivetrain(vision);
   private static final Arm arm = new Arm();
 
-  public CommandBase disengageBrake(){return drivetrain.disengageBrake();}
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     autonChooser.addOption("Off", null);
     autonChooser.addOption("AutoLevel", new AutoLevel(drivetrain));
     autonChooser.addOption("2 gp and balance left",  Autos.twoGamePiecesAndLevel(drivetrain, arm));
     autonChooser.addOption("2 gp and balance right", Autos.twoGamePiecesAndLevel(drivetrain, arm));
-    autonChooser.addOption("3 gp left",  Autos.twoGamePiecesAndLevel(drivetrain, arm));
-    autonChooser.addOption("3 gp right", Autos.twoGamePiecesAndLevel(drivetrain, arm));
+    autonChooser.addOption("3 gp left",  Autos.threeGamePieces(drivetrain, arm));
+    autonChooser.addOption("3 gp right", Autos.threeGamePieces(drivetrain, arm));
     autonChooser.addOption("1 gp and balance", Autos.oneGamePieceAndLevel(drivetrain, arm));
 
     mainTab.add(autonChooser).withSize(2, 1);
@@ -84,6 +84,11 @@ public class RobotContainer {
     // An example command will be run in autonomous
     //return selected auton to run
     return autonChooser.getSelected();
+  }
+
+  public void onTeleopInit(){
+    if(Constants.autonSuccessful){new WaitCommand(3).andThen(drivetrain.disengageBrake());}
+    else{drivetrain.disengageBrake();}
   }
 
   public void updatePose(){

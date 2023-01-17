@@ -41,16 +41,19 @@ public final class Constants {
     public static final int kPHCANID = 7;
     //SOLENOIDS
     public static final int kBrakeForwardPort = 0;
-    public static final int kBrakeReversePort = 1;
-    public static final int kClawForwardPort = 2;
-    public static final int kClawReversePort = 3;
-    public static final int kExtentionForwardPort = 4;
-    public static final int kExtentionReversePort = 5;
+    public static final int kBrakeReversePort = 1;    
+    public static final int kCubeClawForwardPort = 2;
+    public static final int kConeClawForwardPort = 3;
+    public static final int kCubeClawReversePort = 4;
+    public static final int kConeClawReversePort = 5;
+    public static final int kExtentionForwardPort = 6;
+    public static final int kExtentionReversePort = 7;
     //DIO
     public static final int kArmEncoderPort = 0;
     public static final int kArmLowerLimitPort = 1;
     public static final int kArmUpperLimitPort = 2;
     public static final int kBoomLimitPort = 3;
+
   }
   public static class AutonConstants{
     public static final PIDController kLeftController = 
@@ -82,9 +85,9 @@ public final class Constants {
         DriverStation.getAlliance()==Alliance.Blue?7.07:feildLength-7.07, 4.59
       );
     }
-    private static final double[] rowXArray 
+    private static final double[] pegRowXArray 
       = new double[]{.669,.236474};
-    private static final double[] columnYArray 
+    private static final double[] pegColumnYArray 
       = new double[]{.508,1.626,2.235,3.353,3.912,5.029};
     /**
      * @param row the row the peg is in 0 = low; 1 = high
@@ -92,10 +95,10 @@ public final class Constants {
      * @return the translation of the peg using the global position origin
      */
     public static Translation2d getPeg(int row, int column){
-      double x = rowXArray[row];
+      double x = pegRowXArray[row];
       //if red alliance change the pegs to the other side of the field
       if(DriverStation.getAlliance()==Alliance.Red){x=feildLength-x;}
-      return new Translation2d(x, columnYArray[column]);
+      return new Translation2d(x, pegColumnYArray[column]);
     }
     public static Translation2d choosePeg(int row, Pose2d robotPose){
       int choosenPeg=0; double shortestDistance=-1;
@@ -105,6 +108,25 @@ public final class Constants {
         }
       }
       return getPeg(row, choosenPeg);
+    }
+    private static final double[] shelfRowXArray
+      = new double[]{.286,.505};
+    private static final double[] shelfColumnYArray
+      = new double[]{1.07,2.743,4.42};
+    public static Translation2d getShelf(int row, int column){
+      double x = shelfRowXArray[row];
+      //if red alliance change the pegs to the other side of the field
+      if(DriverStation.getAlliance()==Alliance.Red){x=feildLength-x;}
+      return new Translation2d(x, shelfColumnYArray[column]);
+    }
+    public static Translation2d chooseShelf(int row, Pose2d robotPose){
+      int choosenShelf=0; double shortestDistance=-1;
+      for(int i=0;i<=2;i++){
+        if(robotPose.getTranslation().getDistance(getShelf(row, i))<shortestDistance||shortestDistance==-1){
+          shortestDistance=robotPose.getTranslation().getDistance(getShelf(row, i));
+        }
+      }
+      return getShelf(row, choosenShelf);
     }
   }
   public static class OperatorConstants {
