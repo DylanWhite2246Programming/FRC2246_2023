@@ -148,11 +148,12 @@ public class Drivetrain extends SubsystemBase {
   public CommandBase operatorDrive(DoubleSupplier x, DoubleSupplier z){
     return run(
       ()->{
-        if(Math.abs(z.getAsDouble())<OperatorConstants.kDriveStraightThreashold){
-          drive.arcadeDrive(z.getAsDouble(), turnController.calculate(getChassisSpeed().omegaRadiansPerSecond, 0));
-        }else{
-          drive.arcadeDrive(x.getAsDouble(), z.getAsDouble());
-        }
+        //if(Math.abs(z.getAsDouble())<OperatorConstants.kDriveStraightThreashold){
+        //  drive.arcadeDrive(z.getAsDouble(), turnController.calculate(getChassisSpeed().omegaRadiansPerSecond, 0));
+        //}else{
+        //  drive.arcadeDrive(x.getAsDouble(), z.getAsDouble());
+        //}
+        drive.arcadeDrive(x.getAsDouble(), z.getAsDouble());
       }
     );
   }

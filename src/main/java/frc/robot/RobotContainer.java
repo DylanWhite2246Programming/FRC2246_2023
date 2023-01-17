@@ -32,11 +32,11 @@ public class RobotContainer {
     new Drivestation(
       0,
       1,
-     1,
+     2,
      3
     );
-  private SlewRateLimiter ySlewRateLimiter = new SlewRateLimiter(0, 0, 0);
-  private SlewRateLimiter zSlewRateLimiter = new SlewRateLimiter(0, 0, 0);
+  private SlewRateLimiter ySlewRateLimiter = new SlewRateLimiter(1, -1, 0);
+  private SlewRateLimiter zSlewRateLimiter = new SlewRateLimiter(1, -1, 0);
   ShuffleboardTab mainTab = Shuffleboard.getTab("Main Tab");
   //Sendable chooser to select autonomus command
   SendableChooser<CommandBase> autonChooser = new SendableChooser<CommandBase>();
