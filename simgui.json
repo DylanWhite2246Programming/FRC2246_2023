@@ -1,16 +1,11 @@
 {
   "HALProvider": {
     "Other Devices": {
-      "DutyCycleEncoder[0]": {
+      "SPARK MAX [4]": {
         "header": {
           "open": true
         }
       }
-    }
-  },
-  "NTProvider": {
-    "types": {
-      "/FMSInfo": "FMSInfo"
     }
   }
 }
