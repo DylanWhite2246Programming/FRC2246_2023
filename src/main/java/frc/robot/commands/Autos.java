@@ -54,7 +54,7 @@ public final class Autos {
       arm.openClaw(),
       ramseteCommandGenerator(drivetrain, DriverStation.getAlliance()==Alliance.Blue?new Trajectory():new Trajectory())//drive to next game piece
         .alongWith(arm.moveToIntakePosition()),
-      arm.closeClawCube(),
+      arm.closeClaw(),
       new WaitCommand(.25),
       ramseteCommandGenerator(drivetrain, DriverStation.getAlliance()==Alliance.Blue?new Trajectory():new Trajectory())//move to goal
         .alongWith(arm.moveToBackMiddlePostion()),
@@ -70,18 +70,18 @@ public final class Autos {
       arm.openClaw(),
       ramseteCommandGenerator(drivetrain, DriverStation.getAlliance()==Alliance.Blue?new Trajectory():new Trajectory())//drive to next game piece
         .alongWith(arm.moveToIntakePosition()),
-      arm.closeClawCube(),
+      arm.closeClaw(),
       new WaitCommand(.25),
       ramseteCommandGenerator(drivetrain, DriverStation.getAlliance()==Alliance.Blue?new Trajectory():new Trajectory())//move to goal
         .alongWith(arm.moveToBackMiddlePostion()),
       arm.openClaw(),
       ramseteCommandGenerator(drivetrain, DriverStation.getAlliance()==Alliance.Blue?new Trajectory():new Trajectory())//move to next game piece
         .alongWith(arm.moveToIntakePosition()),
-      arm.closeClawCone(),
+      arm.closeClaw(),
       new WaitCommand(.25),
       ramseteCommandGenerator(drivetrain, DriverStation.getAlliance()==Alliance.Blue?new Trajectory():new Trajectory())//move to goal
         .alongWith(arm.moveToBackMiddlePostion()),
-      arm.closeClawCone(),
+      arm.closeClaw(),
       ramseteCommandGenerator(drivetrain, DriverStation.getAlliance()==Alliance.Blue?new Trajectory():new Trajectory())//move to center field
     );
   }
