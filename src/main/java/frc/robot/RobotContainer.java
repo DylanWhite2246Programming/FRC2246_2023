@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.robot.Constants.OperatorConstants;
 import frc.robot.Team2246.Drivestation;
 import frc.robot.commands.AutoLevel;
 import frc.robot.commands.Autos;
@@ -58,8 +59,8 @@ public class RobotContainer {
 
     drivetrain.setDefaultCommand(
       drivetrain.operatorDrive(
-        ()->ySlewRateLimiter.calculate(drivestation.getLeftY()), 
-        ()->zSlewRateLimiter.calculate(drivestation.getRightX())
+        ()->OperatorConstants.tune(ySlewRateLimiter.calculate(drivestation.getLeftY())), 
+        ()->OperatorConstants.tune(zSlewRateLimiter.calculate(drivestation.getRightX()))
       )
     );
 
