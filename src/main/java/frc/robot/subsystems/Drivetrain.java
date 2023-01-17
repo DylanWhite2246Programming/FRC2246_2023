@@ -141,7 +141,6 @@ public class Drivetrain extends SubsystemBase {
   public CommandBase STOP(){return runOnce(()->drive.stopMotor());}
   public CommandBase engageBrake(){return STOP().andThen(runOnce(()->brakeSolenoid.set(Value.kForward)));}
   public CommandBase disengageBrake(){return runOnce(()->brakeSolenoid.set(Value.kReverse));}
-  public CommandBase toggleBrake(){return runOnce(()->brakeSolenoid.toggle());}
   /**@return true when brake engaged */
   public boolean getBrake(){return brakeSolenoid.get()==Value.kForward;}
 
