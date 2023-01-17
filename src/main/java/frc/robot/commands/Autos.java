@@ -81,7 +81,7 @@ public final class Autos {
       new WaitCommand(.25),
       ramseteCommandGenerator(drivetrain, DriverStation.getAlliance()==Alliance.Blue?new Trajectory():new Trajectory())//move to goal
         .alongWith(arm.moveToBackMiddlePostion()),
-      arm.closeClaw(),
+      arm.openClaw(),
       ramseteCommandGenerator(drivetrain, DriverStation.getAlliance()==Alliance.Blue?new Trajectory():new Trajectory())//move to center field
     );
   }
