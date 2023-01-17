@@ -7,5 +7,11 @@
         }
       }
     }
+  },
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/Shuffleboard/Main Tab/SendableChooser[0]": "String Chooser"
+    }
   }
 }
