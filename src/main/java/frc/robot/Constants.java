@@ -132,7 +132,11 @@ public final class Constants {
   public static class OperatorConstants {
     /*percent */
     public static final double kDriveStraightThreashold = .0075;
-    public static final int kDriverControllerPort = 0;
+    
+    public static double tune(double x){
+      return Math.signum(x)*x*x;
+    }
+    public static final double kSlowSpeed = .3, kNormalSpeed = .7;
   }
   public static class RobotConstruction{
     /*meters */

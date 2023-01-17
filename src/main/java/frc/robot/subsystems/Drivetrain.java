@@ -36,14 +36,15 @@ public class Drivetrain extends SubsystemBase {
   private static RelativeEncoder lEncoder, rEncoder;
   private static AHRS navx = new AHRS();  
   private static DoubleSolenoid brakeSolenoid;
+  private Trigger brakeTrigger = new Trigger(this::getBrake);
+  private Vision vision;
 
   private static DifferentialDriveKinematics kinematics;
   private static DifferentialDriveOdometry odometry;
+  private DifferentialDrivePoseEstimator drivePoseEstimator;
 
   private static PIDController turnController;
 
-  private DifferentialDrivePoseEstimator drivePoseEstimator;
-  private Vision vision;
 
   /** Creates a new ExampleSubsystem. */
   public Drivetrain(Vision vision) {
@@ -60,6 +61,11 @@ public class Drivetrain extends SubsystemBase {
       Ports.kBrakeReversePort
     );
     brakeSolenoid.set(Value.kReverse);
+    brakeTrigger
+      .onTrue(runOnce(()->drive.setMaxOutput(0)))
+      .onFalse(setNormalSpeed());
+
+
     drive = new DifferentialDrive(l1,r1);
 
     lEncoder=l1.getEncoder();
@@ -138,7 +144,7 @@ public class Drivetrain extends SubsystemBase {
   public CommandBase toggleBrake(){return runOnce(()->brakeSolenoid.toggle());}
   /**@return true when brake engaged */
   public boolean getBrake(){return brakeSolenoid.get()==Value.kForward;}
-  public Trigger getBrakeTrigger(){return new Trigger(this::getBrake);}
+
   public CommandBase operatorDrive(DoubleSupplier x, DoubleSupplier z){
     return run(
       ()->{
@@ -150,6 +156,10 @@ public class Drivetrain extends SubsystemBase {
       }
     );
   }
+
+  public CommandBase setFullSpeed(){return runOnce(()->drive.setMaxOutput(1));}
+  public CommandBase setNormalSpeed(){return runOnce(()->drive.setMaxOutput(OperatorConstants.kNormalSpeed));}
+  public CommandBase setSlowSpeed(){return runOnce(()->drive.setMaxOutput(OperatorConstants.kSlowSpeed));}
 
   /*
   public void updateOdometry(){
