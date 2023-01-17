@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.Ports;
@@ -62,6 +63,10 @@ public class PowerAndPneumatics extends SubsystemBase {
   public void turnOnCompressor(){compressor.enableAnalog(Constants.pressure[0], Constants.pressure[1]);}
   /**turns off compressor */
   public void turnOffCompressor(){compressor.disable();}
+  /**turns on compressor with predefined limits in Robot.Constants file */
+  public CommandBase turnOnCompressorCommand(){return runOnce(()->turnOnCompressor());}
+  /**turns off compressor */
+  public CommandBase turnOffCompressorCommand(){return runOnce(()->turnOffCompressor());}
   /**
    * @return the active satus of the compressor true means air is being compressed
    */
