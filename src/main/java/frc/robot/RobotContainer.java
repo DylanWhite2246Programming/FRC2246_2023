@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
 import frc.robot.Team2246.Drivestation;
 import frc.robot.commands.AutoLevel;
 import frc.robot.commands.Autos;
