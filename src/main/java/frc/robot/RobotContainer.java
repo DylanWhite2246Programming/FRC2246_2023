@@ -59,8 +59,8 @@ public class RobotContainer {
 
     drivetrain.setDefaultCommand(
       drivetrain.operatorDrive(
-        ()->OperatorConstants.tune(ySlewRateLimiter.calculate(drivestation.getLeftY())), 
-        ()->OperatorConstants.tune(zSlewRateLimiter.calculate(drivestation.getRightX()))
+        ()->ySlewRateLimiter.calculate(drivestation.getLeftY()), 
+        ()->zSlewRateLimiter.calculate(drivestation.getRightX())
       )
     );
 
