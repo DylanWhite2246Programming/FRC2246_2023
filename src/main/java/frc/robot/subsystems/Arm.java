@@ -25,17 +25,14 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
 public class Arm extends ProfiledPIDSubsystem {
   private static CANSparkMax m1, m2;
-  private static DoubleSolenoid cubeClaw = new DoubleSolenoid(
+  private static DoubleSolenoid clawSolenoid = new DoubleSolenoid(
+    Ports.kPHCANID,
     PneumaticsModuleType.REVPH, 
     Ports.kCubeClawForwardPort, 
     Ports.kCubeClawReversePort
   );
-  private static DoubleSolenoid coneClaw = new DoubleSolenoid(
-    PneumaticsModuleType.REVPH, 
-    Ports.kConeClawForwardPort, 
-    Ports.kConeClawReversePort
-  );
-  private static DoubleSolenoid extention = new DoubleSolenoid(
+  private static DoubleSolenoid extentionSolenoid = new DoubleSolenoid(
+    Ports.kPHCANID,
     PneumaticsModuleType.REVPH, 
     Ports.kExtentionForwardPort,
     Ports.kExtentionReversePort
@@ -63,9 +60,8 @@ public class Arm extends ProfiledPIDSubsystem {
     boomLimit = new DigitalInput(Ports.kBoomLimitPort);
     encoder = new DutyCycleEncoder(Ports.kArmEncoderPort);
 
-    extention.set(Value.kReverse);
-    coneClaw.set(Value.kReverse);
-    cubeClaw.set(Value.kReverse);
+    extentionSolenoid.set(Value.kReverse);
+    clawSolenoid.set(Value.kReverse);
 
     //configured variables
       //set distance per pulse as tau radians
@@ -84,11 +80,10 @@ public class Arm extends ProfiledPIDSubsystem {
   
   //public CommandBase openClaw(){return runOnce(()->claw.set(Value.kForward));}
   //public CommandBase closeClaw(){return runOnce(()->claw.set(Value.kReverse));}
-  public CommandBase openClaw(){return runOnce(()->{cubeClaw.set(Value.kForward);coneClaw.set(Value.kForward);});}
-  public CommandBase closeClawCone(){return runOnce(()->{cubeClaw.set(Value.kForward);coneClaw.set(Value.kReverse);});}
-  public CommandBase closeClawCube(){return runOnce(()->{cubeClaw.set(Value.kReverse);coneClaw.set(Value.kReverse);});}
-  public CommandBase extendArm(){return runOnce(()->extention.set(Value.kForward));}
-  public CommandBase retractArm(){return runOnce(()->extention.set(Value.kReverse));}
+  public CommandBase openClaw(){return runOnce(()->clawSolenoid.set(Value.kForward));}
+  public CommandBase closeClaw(){return runOnce(()->clawSolenoid.set(Value.kReverse));}
+  public CommandBase extendArm(){return runOnce(()->extentionSolenoid.set(Value.kForward));}
+  public CommandBase retractArm(){return runOnce(()->extentionSolenoid.set(Value.kReverse));}
 
   /**way of overiding move arm */
   public CommandBase setGoalCommand(double goal){return runOnce(()->{setGoal(goal);enable();});}
