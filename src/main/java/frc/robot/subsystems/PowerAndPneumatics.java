@@ -9,7 +9,9 @@ import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.Constants.Ports;
 
@@ -17,11 +19,13 @@ public class PowerAndPneumatics extends SubsystemBase {
   private static PowerDistribution pdh;
   private static PneumaticHub ph;
   private static Compressor compressor;
+
   /** Creates a new PowerAndPneumatics. */
   public PowerAndPneumatics() {
     pdh = new PowerDistribution(Ports.kPDHCANID, ModuleType.kRev);
     ph = new PneumaticHub(Ports.kPHCANID);
     compressor = ph.makeCompressor();
+
   }
 
   /**
@@ -53,6 +57,8 @@ public class PowerAndPneumatics extends SubsystemBase {
    * @param value value to set the switchable channel true is on
    */
   public void setSwitchableChannel(boolean value){pdh.setSwitchableChannel(value);}
+  /**gets status of switchable channel true is on */
+  public boolean getSwitchableChannel(){return pdh.getSwitchableChannel();}
 
 
   /**
@@ -71,6 +77,21 @@ public class PowerAndPneumatics extends SubsystemBase {
   public CommandBase turnOnHeadlights(){return runOnce(()->setSwitchableChannel(true));}
   /**turns off targeting lights */
   public CommandBase turnOffHeadlights(){return runOnce(()->setSwitchableChannel(false));}
+  /**flashes headlights twice ending on the initial value */
+  public CommandBase flashHeadlights(){
+    boolean initialvalue = getSwitchableChannel();
+    return new SequentialCommandGroup(
+      turnOnHeadlights(),
+      new WaitCommand(.2),
+      turnOffHeadlights(),
+      new WaitCommand(.2),
+      turnOnHeadlights(),
+      new WaitCommand(.2),
+      turnOffHeadlights(),
+      new WaitCommand(.2),
+      initialvalue?turnOnHeadlights():null
+    );
+  }
   /**
    * @return the active satus of the compressor true means air is being compressed
    */
