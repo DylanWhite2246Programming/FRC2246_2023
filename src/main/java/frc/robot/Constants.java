@@ -31,14 +31,21 @@ public final class Constants {
   public static final int[] pressure = new int[]{75,90};
   public static class Ports{
     //CANID
-    public static final int kPDHCANID = 0;
+    public static final int kPHCANID = 0;
     public static final int kL1CANID = 1;
     public static final int kL2CANID = 2;
     public static final int kR1CANID = 3;
     public static final int kR2CANID = 4;
     public static final int kArmMotor1Port = 5;
     public static final int kArmMotor2Port = 6;
-    public static final int kPHCANID = 7;
+    public static final int kPDHCANID = 7;
+    //PWN
+    public static final int kLedPort = 0;
+    //DIO
+    public static final int kArmEncoderPort = 0;
+    public static final int kArmLowerLimitPort = 1;
+    public static final int kArmUpperLimitPort = 2;
+    public static final int kBoomLimitPort = 3;
     //SOLENOIDS
     public static final int kBrakeForwardPort = 0;
     public static final int kBrakeReversePort = 1;    
@@ -48,12 +55,6 @@ public final class Constants {
     public static final int kConeClawReversePort = 5;
     public static final int kExtentionForwardPort = 6;
     public static final int kExtentionReversePort = 7;
-    //DIO
-    public static final int kArmEncoderPort = 0;
-    public static final int kArmLowerLimitPort = 1;
-    public static final int kArmUpperLimitPort = 2;
-    public static final int kBoomLimitPort = 3;
-
   }
   public static class AutonConstants{
     public static final PIDController kLeftController = 
