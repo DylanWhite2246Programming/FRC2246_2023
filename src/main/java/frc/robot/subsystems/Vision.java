@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RobotConstruction;
 
 public class Vision extends SubsystemBase {
-  AprilTagFieldLayout aprilTagFieldLayout; //= new AprilTagFieldLayout(AprilTagFieldLayout.loadFromResource(AprilTagFields.k2022RapidReact.m_resourceFile));
+  AprilTagFieldLayout aprilTagFieldLayout;// = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
   PhotonCamera cam = new PhotonCamera("photonvision");
   RobotPoseEstimator poseEstimator;
   ShuffleboardTab camera, pose;
