@@ -67,6 +67,10 @@ public class PowerAndPneumatics extends SubsystemBase {
   public CommandBase turnOnCompressorCommand(){return runOnce(()->turnOnCompressor());}
   /**turns off compressor */
   public CommandBase turnOffCompressorCommand(){return runOnce(()->turnOffCompressor());}
+  /**turns on targeting lights */
+  public CommandBase turnOnHeadlights(){return runOnce(()->setSwitchableChannel(true));}
+  /**turns off targeting lights */
+  public CommandBase turnOffHeadlights(){return runOnce(()->setSwitchableChannel(false));}
   /**
    * @return the active satus of the compressor true means air is being compressed
    */
