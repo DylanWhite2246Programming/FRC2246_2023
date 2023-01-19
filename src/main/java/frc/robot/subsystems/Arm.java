@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.Constants.Ports;
@@ -67,6 +68,8 @@ public class Arm extends ProfiledPIDSubsystem {
     //set distance per pulse as tau radians
     encoder.setDistancePerRotation(2*Math.PI);
     m2.follow(m1);
+    m1.setIdleMode(IdleMode.kBrake);
+    m2.setIdleMode(IdleMode.kBrake);
   }
 
   /** @return state of lower limit true = pressed*/
@@ -118,7 +121,6 @@ public class Arm extends ProfiledPIDSubsystem {
     }
     else{m1.setVoltage(output+feedForward.calculate(setpoint.position, setpoint.velocity));}
     //add the calculated feedforward to the pid output to get the motor output
-    
   }
   @Override
   public double getMeasurement() {
