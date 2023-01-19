@@ -56,6 +56,10 @@ public class Arm extends ProfiledPIDSubsystem {
     //Defined variables
     m1 = new CANSparkMax(Ports.kArmMotor1Port, MotorType.kBrushless);
     m2 = new CANSparkMax(Ports.kArmMotor2Port, MotorType.kBrushless);
+    m2.follow(m1);
+    m1.setIdleMode(IdleMode.kBrake);
+    m2.setIdleMode(IdleMode.kBrake);
+    
     lowerLimit = new DigitalInput(Ports.kArmLowerLimitPort);
     upperLimit = new DigitalInput(Ports.kArmUpperLimitPort);
     boomLimit = new DigitalInput(Ports.kBoomLimitPort);
@@ -67,9 +71,6 @@ public class Arm extends ProfiledPIDSubsystem {
     //configured variables
     //set distance per pulse as tau radians
     encoder.setDistancePerRotation(2*Math.PI);
-    m2.follow(m1);
-    m1.setIdleMode(IdleMode.kBrake);
-    m2.setIdleMode(IdleMode.kBrake);
   }
 
   /** @return state of lower limit true = pressed*/
