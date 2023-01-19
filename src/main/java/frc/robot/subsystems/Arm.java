@@ -88,7 +88,7 @@ public class Arm extends ProfiledPIDSubsystem {
   /**moves arm to position given (in radians) also automatically retracts arm if needed */
   private CommandBase moveArm(double value){
     return new ConditionalCommand(
-      //retract arm and wait for it to reach limit
+      //retract arm and wait for it to reach limit and then move arm
       new SequentialCommandGroup(
         retractArm(),
         new WaitUntilCommand(this::getBoomLimit).withTimeout(3),
