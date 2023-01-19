@@ -41,7 +41,7 @@ public class RobotContainer {
   //Sendable chooser to select autonomus command
   SendableChooser<CommandBase> autonChooser = new SendableChooser<CommandBase>();
   private static final Vision vision = new Vision();
-  private static final Drivetrain drivetrain = new Drivetrain(vision);
+  private static final Drivetrain drivetrain = new Drivetrain();
   private static final Arm arm = new Arm();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */

@@ -61,6 +61,10 @@ public class Vision extends SubsystemBase {
     return cam.getLatestResult();
   }
 
+  public int getPipelineIndex(){
+    return cam.getPipelineIndex();
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

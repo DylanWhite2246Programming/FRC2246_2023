@@ -38,7 +38,6 @@ public class Drivetrain extends SubsystemBase {
   private static AHRS navx = new AHRS();  
   private static DoubleSolenoid brakeSolenoid;
   private Trigger brakeTrigger = new Trigger(this::getBrake);
-  private Vision vision;
 
   private static DifferentialDriveKinematics kinematics;
   private static DifferentialDriveOdometry odometry;
@@ -46,10 +45,8 @@ public class Drivetrain extends SubsystemBase {
 
   private static PIDController turnController;
 
-
   /** Creates a new ExampleSubsystem. */
-  public Drivetrain(Vision vision) {
-    this.vision = vision;
+  public Drivetrain() {
     //define variables
     l1 = new CANSparkMax(Ports.kL1CANID, MotorType.kBrushless);
     l2 = new CANSparkMax(Ports.kL2CANID, MotorType.kBrushless);
@@ -169,28 +166,12 @@ public class Drivetrain extends SubsystemBase {
     l2.setIdleMode(mode);
   });}
 
-  /*
-  public void updateOdometry(){
-    drivePoseEstimator.update(
-      getRotation2d(), getLeftDistance(), getRightDistance()
-    );
-
-    Pair<Pose2d, Double> result = 
-      vision.getEstimatedGlobalPose(drivePoseEstimator.getEstimatedPosition());
-    var camPose = result.getFirst();
-    var camPoseObsTime = result.getSecond();
-    if(camPose != null){
-      drivePoseEstimator.addVisionMeasurement(camPose, camPoseObsTime);
-    }else{
-
-    }
-  }
-  */
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     //update odometry
     odometry.update(getRotation2d(), getLeftDistance(), getRightDistance());
+    drivePoseEstimator.update(getRotation2d(), getLeftVelocity(), getLeftDistance());
   }
 
   @Override
