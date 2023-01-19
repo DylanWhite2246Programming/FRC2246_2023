@@ -10,6 +10,7 @@ import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
@@ -160,6 +161,13 @@ public class Drivetrain extends SubsystemBase {
   public CommandBase setFullSpeed(){return runOnce(()->drive.setMaxOutput(1));}
   public CommandBase setNormalSpeed(){return runOnce(()->drive.setMaxOutput(OperatorConstants.kNormalSpeed));}
   public CommandBase setSlowSpeed(){return runOnce(()->drive.setMaxOutput(OperatorConstants.kSlowSpeed));}
+
+  public CommandBase setIdleMode(IdleMode mode){return runOnce(()->{
+    r1.setIdleMode(mode);
+    r2.setIdleMode(mode);
+    l1.setIdleMode(mode);
+    l2.setIdleMode(mode);
+  });}
 
   /*
   public void updateOdometry(){
