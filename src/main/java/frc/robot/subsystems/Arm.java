@@ -64,7 +64,7 @@ public class Arm extends ProfiledPIDSubsystem {
     clawSolenoid.set(Value.kReverse);
 
     //configured variables
-      //set distance per pulse as tau radians
+    //set distance per pulse as tau radians
     encoder.setDistancePerRotation(2*Math.PI);
     m2.follow(m1);
   }
@@ -73,21 +73,19 @@ public class Arm extends ProfiledPIDSubsystem {
   public boolean getLowerLimit(){return lowerLimit.get();}
   /** @return state of upper limit true = pressed*/
   public boolean getUpperLimit(){return upperLimit.get();}
-  /** @return state of the boom limit */
+  /** @return state of the boom limit true = fully retracted*/
   public boolean getBoomLimit(){return boomLimit.get();}
   public boolean atGoal(){return getController().atGoal();}
-
   
-  //public CommandBase openClaw(){return runOnce(()->claw.set(Value.kForward));}
-  //public CommandBase closeClaw(){return runOnce(()->claw.set(Value.kReverse));}
   public CommandBase openClaw(){return runOnce(()->clawSolenoid.set(Value.kForward));}
   public CommandBase closeClaw(){return runOnce(()->clawSolenoid.set(Value.kReverse));}
   public CommandBase extendArm(){return runOnce(()->extentionSolenoid.set(Value.kForward));}
   public CommandBase retractArm(){return runOnce(()->extentionSolenoid.set(Value.kReverse));}
 
-  /**way of overiding move arm */
-  public CommandBase setGoalCommand(double goal){return runOnce(()->{setGoal(goal);enable();});}
+  /**sets goal of pid loop */
+  private CommandBase setGoalCommand(double goal){return runOnce(()->{setGoal(goal);enable();});}
 
+  /**moves arm to position given (in radians) also automatically retracts arm if needed */
   private CommandBase moveArm(double value){
     return new ConditionalCommand(
       //retract arm and wait for it to reach limit
