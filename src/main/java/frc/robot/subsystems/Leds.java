@@ -21,7 +21,7 @@ public class Leds extends SubsystemBase {
     leds = new AddressableLED(Ports.kLedPort);
     ledBuffer = new AddressableLEDBuffer(60);//TODO change to led length
     leds.setLength(ledBuffer.getLength());
-    leds.setData(ledBuffer);
+    setColor(Color.kYellow);
     leds.start();
   }
 
