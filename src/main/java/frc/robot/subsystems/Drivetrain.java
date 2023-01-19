@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import java.util.Optional;
 import java.util.function.DoubleSupplier;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -30,6 +31,9 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.Ports;
 import frc.robot.Constants.RobotConstruction;
+
+import org.photonvision.EstimatedRobotPose;
+import org.photonvision.RobotPoseEstimator;
 
 public class Drivetrain extends SubsystemBase {
   private static CANSparkMax l1,l2,r1,r2;
@@ -173,6 +177,25 @@ public class Drivetrain extends SubsystemBase {
     odometry.update(getRotation2d(), getLeftDistance(), getRightDistance());
     drivePoseEstimator.update(getRotation2d(), getLeftVelocity(), getLeftDistance());
   }
+
+  public void updateOdometry(Vision vision) {
+    drivePoseEstimator.update(
+            getRotation2d(), getLeftDistance(), getRightDistance());
+
+    // Also apply vision measurements. We use 0.3 seconds in the past as an example
+    // -- on
+    // a real robot, this must be calculated based either on latency or timestamps.
+    Optional<EstimatedRobotPose> result =
+      vision.getEstimatedGlobalPose(drivePoseEstimator.getEstimatedPosition());
+
+    if (result.isPresent()) {
+        EstimatedRobotPose camPose = result.get();
+        drivePoseEstimator.addVisionMeasurement(
+                camPose.estimatedPose.toPose2d(), camPose.timestampSeconds);
+    } else {
+        // move it way off the screen to make it disappear
+    }
+}
 
   @Override
   public void simulationPeriodic() {
