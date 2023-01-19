@@ -10,6 +10,7 @@ import java.util.Optional;
 import org.photonvision.PhotonCamera;
 import org.photonvision.RobotPoseEstimator;
 import org.photonvision.RobotPoseEstimator.PoseStrategy;
+import org.photonvision.targeting.PhotonPipelineResult;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.Pair;
@@ -56,8 +57,9 @@ public class Vision extends SubsystemBase {
     }
   }
 
-  public boolean hasTarget(){return false;}
-  
+  public PhotonPipelineResult getResults(){
+    return cam.getLatestResult();
+  }
 
   @Override
   public void periodic() {
