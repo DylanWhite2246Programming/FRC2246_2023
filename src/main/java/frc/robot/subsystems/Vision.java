@@ -24,7 +24,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RobotConstruction;
 
 public class Vision extends SubsystemBase {
-  AprilTagFieldLayout aprilTagFieldLayout = new AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
+  AprilTagFieldLayout fieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
   PhotonCamera cam = new PhotonCamera("photonvision");
   PhotonPoseEstimator poseEstimator;
   ShuffleboardTab camera, pose;
@@ -32,7 +32,12 @@ public class Vision extends SubsystemBase {
   public Vision() {
     var camList = new ArrayList<Pair<PhotonCamera, Transform3d>>();
     camList.add(new Pair<PhotonCamera, Transform3d>(cam, RobotConstruction.kRobotToCam));
-    poseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, cam, null);
+    poseEstimator = new PhotonPoseEstimator(
+      fieldLayout, 
+      PoseStrategy.CLOSEST_TO_REFERENCE_POSE, 
+      cam, 
+      RobotConstruction.kRobotToCam
+    );
   }
 
   /** 
@@ -45,7 +50,7 @@ public class Vision extends SubsystemBase {
   public Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d prevEstimatedRobotPose) {
     poseEstimator.setReferencePose(prevEstimatedRobotPose);
     return poseEstimator.update();
-}
+  }
 
   public PhotonPipelineResult getResults(){
     return cam.getLatestResult();
