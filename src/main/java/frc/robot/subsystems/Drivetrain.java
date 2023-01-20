@@ -45,7 +45,7 @@ public class Drivetrain extends SubsystemBase {
 
   private static DifferentialDriveKinematics kinematics;
   private static DifferentialDriveOdometry odometry;
-  private DifferentialDrivePoseEstimator drivePoseEstimator;
+  private static DifferentialDrivePoseEstimator drivePoseEstimator;
 
   /** Creates a new ExampleSubsystem. */
   public Drivetrain() {
