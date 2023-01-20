@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import frc.robot.Constants.AutonConstants;
+import frc.robot.Constants.AutonPaths;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.math.controller.RamseteController;
@@ -20,9 +21,15 @@ public final class Autos {
   /** TODO
    * autos we will have to make 
    *  1 game piece collect another and stay out of the way
-   *  2 game piece and level the scale
-   *  2 game peice and collect another one and drive back to the community
-   *  3 game peice?
+   *  3 game piece starting left side with cone
+   *  3 game piece starting left side with cube
+   *  3 game piece starting right side with cone
+   *  3 game piece starting right side with cube
+   *  2 game piece and level starting left side with cone
+   *  2 game piece and level starting left side with cube
+   *  2 game piece and level starting right side with cone
+   *  2 game piece and level starting right side with cube
+   *  1 game piece and level starting in the middle (same for both alliance kinda)
    */
 
   private static RamseteCommand ramseteCommandGenerator(Drivetrain drive, Trajectory trajectory){
@@ -90,7 +97,7 @@ public final class Autos {
       arm.moveToBackTopPosition(),
       arm.openClaw(),
       //move to beond the scale to taxi and then get on scale
-      ramseteCommandGenerator(drivetrain, DriverStation.getAlliance()==Alliance.Blue?new Trajectory():new Trajectory())
+      ramseteCommandGenerator(drivetrain, AutonPaths.getTaxiPassScale().concatenate(AutonPaths.getBackOnToScale()))
         .alongWith(arm.moveToZeroPosition()),
       new AutoLevel(drivetrain)  
     );

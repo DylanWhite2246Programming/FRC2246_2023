@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.io.IOException;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -14,8 +16,11 @@ import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 /**
@@ -68,6 +73,28 @@ public final class Constants {
     public static final double kDriveXKp = 
       (kLeftController.getP()+kRightController.getP())/2;
   } 
+  public static class AutonPaths{
+    public static Trajectory getTaxiPassScale(){
+      Trajectory x = new Trajectory();
+      try{
+        x = TrajectoryUtil.fromPathweaverJson(Filesystem.getDeployDirectory().toPath().resolve("paths/taxipassscaleblue.wpilib.json"));
+      }catch(IOException ex){
+        DriverStation.reportError("Unable to open trajectory: " + "paths/taxipassscaleblue.wpilib.json", ex.getStackTrace());
+      }
+      if(DriverStation.getAlliance()==Alliance.Red){x.relativeTo(new Pose2d(16.534, 8.005, new Rotation2d(Math.PI)));}
+      return x;
+    }
+    public static Trajectory getBackOnToScale(){
+      Trajectory x = new Trajectory();
+      try{
+        x = TrajectoryUtil.fromPathweaverJson(Filesystem.getDeployDirectory().toPath().resolve("paths/backontoscale.wpilib.json"));
+      }catch(IOException ex){
+        DriverStation.reportError("Unable to open trajectory: " + "paths/backontoscale.wpilib.json", ex.getStackTrace());
+      }
+      if(DriverStation.getAlliance()==Alliance.Red){x.relativeTo(new Pose2d(16.534, 8.005, new Rotation2d(Math.PI)));}
+      return x;
+    }
+  }
   public static class FieldConstants{
     public static double feildLength=0,feildWidth=0;
     public static Translation2d getGP0(){return new Translation2d(
