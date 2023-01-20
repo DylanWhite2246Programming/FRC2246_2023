@@ -33,7 +33,7 @@ public class Vision extends SubsystemBase {
     try{
       fieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
     }catch(IOException ex){
-      DriverStation.reportError("Unable to open trajectory: " + "paths/taxipassscaleblue.wpilib.json", ex.getStackTrace());
+      DriverStation.reportError("Unable to open Feild Layout", ex.getStackTrace());
     }
     poseEstimator = new PhotonPoseEstimator(
       fieldLayout, 
