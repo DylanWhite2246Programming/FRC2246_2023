@@ -122,7 +122,7 @@ public class Drivetrain extends SubsystemBase {
   public double getTurnRate(){return navx.getRate();}
   /**@return yaw in radians */
   public double getYaw(){return navx.getAngle();}
-  public Rotation2d getRotation2d(){return navx.getRotation2d();}
+  public Rotation2d getRotation2d(){return navx.getRotation2d().times(-1);}
   /**@return pitch in degrees*/
   public double getPitch(){return navx.getPitch();}
 
@@ -136,7 +136,10 @@ public class Drivetrain extends SubsystemBase {
   public double getRightVelocity(){return rEncoder.getVelocity();}
 
   /**@return returns pose in meters*/
-  public Pose2d getPose2d(){return odometry.getPoseMeters();} 
+  public Pose2d getPose2d(){
+    return drivePoseEstimator.getEstimatedPosition();
+    //return odometry.getPoseMeters();
+  } 
   public DifferentialDriveKinematics getKinematics(){return kinematics;}
 
   public CommandBase STOP(){return runOnce(()->drive.stopMotor());}
@@ -174,7 +177,6 @@ public class Drivetrain extends SubsystemBase {
     // This method will be called once per scheduler run
     //update odometry
     odometry.update(getRotation2d(), getLeftDistance(), getRightDistance());
-    drivePoseEstimator.update(getRotation2d(), getLeftVelocity(), getLeftDistance());
   }
 
   public void updateOdometry(Vision vision) {
@@ -188,13 +190,11 @@ public class Drivetrain extends SubsystemBase {
       vision.getEstimatedGlobalPose(drivePoseEstimator.getEstimatedPosition());
 
     if (result.isPresent()) {
-        EstimatedRobotPose camPose = result.get();
-        drivePoseEstimator.addVisionMeasurement(
-                camPose.estimatedPose.toPose2d(), camPose.timestampSeconds);
-    } else {
-        // move it way off the screen to make it disappear
+      EstimatedRobotPose camPose = result.get();
+      drivePoseEstimator.addVisionMeasurement(
+        camPose.estimatedPose.toPose2d(), camPose.timestampSeconds);
     }
-}
+  }
 
   @Override
   public void simulationPeriodic() {

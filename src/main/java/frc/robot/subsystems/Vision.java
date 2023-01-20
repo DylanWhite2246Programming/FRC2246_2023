@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Optional;
 
 import org.photonvision.EstimatedRobotPose;
@@ -16,10 +15,8 @@ import org.photonvision.targeting.PhotonPipelineResult;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
-import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -38,8 +35,6 @@ public class Vision extends SubsystemBase {
     }catch(IOException ex){
       DriverStation.reportError("Unable to open trajectory: " + "paths/taxipassscaleblue.wpilib.json", ex.getStackTrace());
     }
-    var camList = new ArrayList<Pair<PhotonCamera, Transform3d>>();
-    camList.add(new Pair<PhotonCamera, Transform3d>(cam, RobotConstruction.kRobotToCam));
     poseEstimator = new PhotonPoseEstimator(
       fieldLayout, 
       PoseStrategy.CLOSEST_TO_REFERENCE_POSE, 
@@ -53,7 +48,7 @@ public class Vision extends SubsystemBase {
    */
   public void setPipeline(int pipe){cam.setPipelineIndex(pipe);}
 
-  public void setReferencePose(Pose3d refrencePose){} //TODO figure this out
+  public void setReferencePose(Pose3d refrencePose){poseEstimator.setReferencePose(refrencePose);} //TODO figure this out
 
   public Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d prevEstimatedRobotPose) {
     poseEstimator.setReferencePose(prevEstimatedRobotPose);
