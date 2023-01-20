@@ -90,6 +90,7 @@ public class Drivetrain extends SubsystemBase {
     l2.follow(l1); r2.follow(r1);
     //invert left side
     l1.setInverted(true);
+    lEncoder.setInverted(true);
   }
 
   /**
