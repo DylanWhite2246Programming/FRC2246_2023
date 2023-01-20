@@ -164,7 +164,9 @@ public final class Constants {
     public static double tune(double x){
       return Math.signum(x)*x*x;
     }
-    public static final double kSlowSpeed = .3, kNormalSpeed = .7;
+    public static final double kRobotTopSpeed = 10;
+    public static final double kSlowSpeed = .3*kRobotTopSpeed, kNormalSpeed = .7*kRobotTopSpeed;
+    public static final double normalRotateSpeed = .7, kSlowRotateSpeed = .4;
   }
   public static class RobotConstruction{
     /*meters */
