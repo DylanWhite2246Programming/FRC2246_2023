@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -19,17 +20,24 @@ import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RobotConstruction;
 
 public class Vision extends SubsystemBase {
-  AprilTagFieldLayout fieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
+  AprilTagFieldLayout fieldLayout;
+
   PhotonCamera cam = new PhotonCamera("photonvision");
   PhotonPoseEstimator poseEstimator;
   ShuffleboardTab camera, pose;
   /** Creates a new Vision. */
-  public Vision() {
+  public Vision() { 
+    try{
+      fieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
+    }catch(IOException ex){
+      DriverStation.reportError("Unable to open trajectory: " + "paths/taxipassscaleblue.wpilib.json", ex.getStackTrace());
+    }
     var camList = new ArrayList<Pair<PhotonCamera, Transform3d>>();
     camList.add(new Pair<PhotonCamera, Transform3d>(cam, RobotConstruction.kRobotToCam));
     poseEstimator = new PhotonPoseEstimator(
