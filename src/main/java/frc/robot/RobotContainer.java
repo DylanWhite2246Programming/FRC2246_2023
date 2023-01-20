@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.robot.Constants.OperatorConstants;
 import frc.robot.Team2246.Drivestation;
 import frc.robot.commands.AutoLevel;
 import frc.robot.commands.Autos;
@@ -35,8 +36,6 @@ public class RobotContainer {
      2,
      3
     );
-  private SlewRateLimiter ySlewRateLimiter = new SlewRateLimiter(1, -1, 0);
-  private SlewRateLimiter zSlewRateLimiter = new SlewRateLimiter(1, -1, 0);
   ShuffleboardTab mainTab = Shuffleboard.getTab("Main Tab");
   //Sendable chooser to select autonomus command
   SendableChooser<CommandBase> autonChooser = new SendableChooser<CommandBase>();
@@ -58,8 +57,8 @@ public class RobotContainer {
 
     drivetrain.setDefaultCommand(
       drivetrain.operatorDrive(
-        ()->ySlewRateLimiter.calculate(drivestation.getLeftY()), 
-        ()->zSlewRateLimiter.calculate(drivestation.getRightX())
+        ()->drivestation.getLeftY()*OperatorConstants.kRobotTopSpeed, 
+        ()->drivestation.getRightX()*Math.PI*2
       )
     );
 
