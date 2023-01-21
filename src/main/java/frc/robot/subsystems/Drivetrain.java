@@ -187,7 +187,8 @@ public class Drivetrain extends SubsystemBase {
 
   public void updateOdometry(Vision vision) {
     drivePoseEstimator.update(
-            getRotation2d(), getLeftDistance(), getRightDistance());
+      getRotation2d(), getLeftDistance(), getRightDistance()
+    );
 
     // Also apply vision measurements. We use 0.3 seconds in the past as an example
     // -- on
@@ -198,7 +199,8 @@ public class Drivetrain extends SubsystemBase {
     if (result.isPresent()) {
       EstimatedRobotPose camPose = result.get();
       drivePoseEstimator.addVisionMeasurement(
-        camPose.estimatedPose.toPose2d(), camPose.timestampSeconds);
+        camPose.estimatedPose.toPose2d(), camPose.timestampSeconds
+      );
     }
   }
 
