@@ -21,6 +21,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -133,8 +134,9 @@ public class Drivetrain extends SubsystemBase {
 
   /**@return returns pose in meters*/
   public Pose2d getPose2d(){
-    return drivePoseEstimator.getEstimatedPosition();
-    //return odometry.getPoseMeters();
+    if(DriverStation.isAutonomous()){
+      return odometry.getPoseMeters();
+    }else return drivePoseEstimator.getEstimatedPosition();
   } 
   public DifferentialDriveKinematics getKinematics(){return kinematics;}
 
