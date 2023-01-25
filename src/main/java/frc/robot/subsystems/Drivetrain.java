@@ -41,7 +41,6 @@ public class Drivetrain extends SubsystemBase {
   private static double maxOutput = OperatorConstants.kNormalSpeed;
   private static double rotateScalar = OperatorConstants.normalRotateSpeed;
 
-  private Trigger brakeTrigger = new Trigger(this::getBrake);
 
   private static DifferentialDriveKinematics kinematics;
   private static DifferentialDriveOdometry odometry;
@@ -61,7 +60,7 @@ public class Drivetrain extends SubsystemBase {
       Ports.kBrakeReversePort
     );
     brakeSolenoid.set(Value.kReverse);
-    brakeTrigger
+    new Trigger(this::getBrake)
       .onTrue(runOnce(()->maxOutput=0))
       .onFalse(setNormalSpeed());
 
