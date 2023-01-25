@@ -10,8 +10,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.FieldConstants;
 import frc.robot.subsystems.Drivetrain;
@@ -37,11 +36,7 @@ public class AlignToGoal extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
+  public void initialize() {
     if(goalType == 0){
       choosenGoalPose = FieldConstants.choosePeg(row, drivetrain.getPose2d());
     }else if(goalType == 1){
@@ -50,21 +45,21 @@ public class AlignToGoal extends CommandBase {
       choosenGoalPose = new Translation2d();
       System.out.println("you werent suposed to get here");
     }
+  }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    //use swerve module state optomization to enusre robot alligns relative to direction
+    //when entering scoring area
+    var setpoint = SwerveModuleState.optimize(
+      new SwerveModuleState(0, new Pose2d(choosenGoalPose, new Rotation2d()).relativeTo(drivetrain.getPose2d()).getRotation()), 
+      drivetrain.getPose2d().getRotation()
+    ).angle.getRadians();
+
     drivetrain.operatorDrive(
       mag, 
-      ()->{
-        if((DriverStation.getAlliance()==Alliance.Red)||Math.abs(drivetrain.getRotation2d().getRadians()%(Math.PI*2))>(Math.PI/2)){
-          return turnController.calculate(
-            drivetrain.getRotation2d().getRadians()%(Math.PI*2), 
-            new Pose2d(choosenGoalPose, new Rotation2d()).relativeTo(drivetrain.getPose2d()).getRotation().getRadians()+Math.PI
-          );
-        }else{
-          return turnController.calculate(
-            drivetrain.getRotation2d().getRadians()%(Math.PI*2), 
-            new Pose2d(choosenGoalPose, new Rotation2d()).relativeTo(drivetrain.getPose2d()).getRotation().getRadians()
-          );
-        }
-      }
+      ()->turnController.calculate(setpoint, 0)
     );
   }
 
