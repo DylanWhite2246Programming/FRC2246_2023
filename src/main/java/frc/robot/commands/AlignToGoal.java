@@ -53,14 +53,14 @@ public class AlignToGoal extends CommandBase {
   public void execute() {
     //use swerve module state optomization to enusre robot alligns relative to direction
     //when entering scoring area
-    var setpoint = SwerveModuleState.optimize(
+    var delta = SwerveModuleState.optimize(
       new SwerveModuleState(0, new Pose2d(choosenGoalPose, new Rotation2d()).relativeTo(drivetrain.getPose2d()).getRotation()), 
       drivetrain.getPose2d().getRotation()
     ).angle.getRadians();
 
     drivetrain.operatorDrive(
       mag, 
-      ()->turnController.calculate(setpoint, 0)
+      ()->turnController.calculate(delta, 0)
     );
   }
 
