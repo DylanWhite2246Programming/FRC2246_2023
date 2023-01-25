@@ -144,11 +144,25 @@ public class Drivetrain extends SubsystemBase {
   /**@return true when brake engaged */
   public boolean getBrake(){return brakeSolenoid.get()==Value.kForward;}
 
+  /**imput should be from -1 to 1 */
   public CommandBase operatorDrive(DoubleSupplier x, DoubleSupplier z){
     return run(
       ()->{
-        DifferentialDriveWheelSpeeds speeds = kinematics.toWheelSpeeds(new ChassisSpeeds(x.getAsDouble(), 0, z.getAsDouble()*rotateScalar));
-        speeds.desaturate(maxOutput);
+        DifferentialDriveWheelSpeeds speeds = kinematics.toWheelSpeeds(new ChassisSpeeds(x.getAsDouble()*maxOutput, 0, z.getAsDouble()*rotateScalar));
+        driveVolts(
+          AutonConstants.kFeedForward.calculate(speeds.leftMetersPerSecond)+AutonConstants.kLeftController.calculate(getLeftVelocity(), speeds.leftMetersPerSecond), 
+          AutonConstants.kFeedForward.calculate(speeds.rightMetersPerSecond)+AutonConstants.kRightController.calculate(getRightVelocity(), speeds.rightMetersPerSecond)
+        );
+      }
+    );
+  }
+
+  /**imput should be from in the bounds of the robots top speed*/
+  public CommandBase computerDrive(DoubleSupplier x, DoubleSupplier z){
+    return run(
+      ()->{
+        var speeds = kinematics.toWheelSpeeds(new ChassisSpeeds(x.getAsDouble(), 0, z.getAsDouble()));
+        speeds.desaturate(OperatorConstants.kRobotTopSpeed);
         driveVolts(
           AutonConstants.kFeedForward.calculate(speeds.leftMetersPerSecond)+AutonConstants.kLeftController.calculate(getLeftVelocity(), speeds.leftMetersPerSecond), 
           AutonConstants.kFeedForward.calculate(speeds.rightMetersPerSecond)+AutonConstants.kRightController.calculate(getRightVelocity(), speeds.rightMetersPerSecond)
