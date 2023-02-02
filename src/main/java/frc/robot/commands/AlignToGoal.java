@@ -13,6 +13,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.FieldConstants;
+import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.Drivetrain;
 
 public class AlignToGoal extends CommandBase {
@@ -52,14 +53,14 @@ public class AlignToGoal extends CommandBase {
   public void execute() {
     //use swerve module state optomization to enusre robot alligns relative to direction
     //when entering scoring area
-    var setpoint = SwerveModuleState.optimize(
+    var delta = SwerveModuleState.optimize(
       new SwerveModuleState(0, new Pose2d(choosenGoalPose, new Rotation2d()).relativeTo(drivetrain.getPose2d()).getRotation()), 
       drivetrain.getPose2d().getRotation()
     ).angle.getRadians();
 
     drivetrain.operatorDrive(
       mag, 
-      ()->turnController.calculate(setpoint, 0)
+      ()->turnController.calculate(delta, 0)
     );
   }
 

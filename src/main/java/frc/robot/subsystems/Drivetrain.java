@@ -21,6 +21,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -41,7 +42,6 @@ public class Drivetrain extends SubsystemBase {
   private static double maxOutput = OperatorConstants.kNormalSpeed;
   private static double rotateScalar = OperatorConstants.normalRotateSpeed;
 
-  private Trigger brakeTrigger = new Trigger(this::getBrake);
 
   private static DifferentialDriveKinematics kinematics;
   private static DifferentialDriveOdometry odometry;
@@ -61,7 +61,7 @@ public class Drivetrain extends SubsystemBase {
       Ports.kBrakeReversePort
     );
     brakeSolenoid.set(Value.kReverse);
-    brakeTrigger
+    new Trigger(this::getBrake)
       .onTrue(runOnce(()->maxOutput=0))
       .onFalse(setNormalSpeed());
 
@@ -134,8 +134,9 @@ public class Drivetrain extends SubsystemBase {
 
   /**@return returns pose in meters*/
   public Pose2d getPose2d(){
-    return drivePoseEstimator.getEstimatedPosition();
-    //return odometry.getPoseMeters();
+    if(DriverStation.isAutonomous()){
+      return odometry.getPoseMeters();
+    }else return drivePoseEstimator.getEstimatedPosition();
   } 
   public DifferentialDriveKinematics getKinematics(){return kinematics;}
 
@@ -145,11 +146,25 @@ public class Drivetrain extends SubsystemBase {
   /**@return true when brake engaged */
   public boolean getBrake(){return brakeSolenoid.get()==Value.kForward;}
 
+  /**imput should be from -1 to 1 */
   public CommandBase operatorDrive(DoubleSupplier x, DoubleSupplier z){
     return run(
       ()->{
-        DifferentialDriveWheelSpeeds speeds = kinematics.toWheelSpeeds(new ChassisSpeeds(x.getAsDouble(), 0, z.getAsDouble()*rotateScalar));
-        speeds.desaturate(maxOutput);
+        DifferentialDriveWheelSpeeds speeds = kinematics.toWheelSpeeds(new ChassisSpeeds(x.getAsDouble()*maxOutput, 0, z.getAsDouble()*rotateScalar));
+        driveVolts(
+          AutonConstants.kFeedForward.calculate(speeds.leftMetersPerSecond)+AutonConstants.kLeftController.calculate(getLeftVelocity(), speeds.leftMetersPerSecond), 
+          AutonConstants.kFeedForward.calculate(speeds.rightMetersPerSecond)+AutonConstants.kRightController.calculate(getRightVelocity(), speeds.rightMetersPerSecond)
+        );
+      }
+    );
+  }
+
+  /**imput should be from in the bounds of the robots top speed*/
+  public CommandBase computerDrive(DoubleSupplier x, DoubleSupplier z){
+    return run(
+      ()->{
+        var speeds = kinematics.toWheelSpeeds(new ChassisSpeeds(x.getAsDouble(), 0, z.getAsDouble()));
+        speeds.desaturate(OperatorConstants.kRobotTopSpeed);
         driveVolts(
           AutonConstants.kFeedForward.calculate(speeds.leftMetersPerSecond)+AutonConstants.kLeftController.calculate(getLeftVelocity(), speeds.leftMetersPerSecond), 
           AutonConstants.kFeedForward.calculate(speeds.rightMetersPerSecond)+AutonConstants.kRightController.calculate(getRightVelocity(), speeds.rightMetersPerSecond)
