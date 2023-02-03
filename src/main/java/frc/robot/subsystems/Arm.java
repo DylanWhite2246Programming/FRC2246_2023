@@ -95,7 +95,7 @@ public class Arm extends ProfiledPIDSubsystem {
       //retract arm and wait for it to reach limit and then move arm
       new SequentialCommandGroup(
         retractArm(),
-        new WaitUntilCommand(this::getBoomLimit).withTimeout(3),
+        new WaitUntilCommand(this::getBoomLimit).withTimeout(3),//TODO consider using a limit switch overide. 
         setGoalCommand(value)
       ),
       //if collision will not happen move arm
