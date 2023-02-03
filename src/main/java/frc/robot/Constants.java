@@ -82,7 +82,7 @@ public final class Constants {
       }catch(IOException ex){
         DriverStation.reportError("Unable to open trajectory: " + "paths/taxipassscaleblue.wpilib.json", ex.getStackTrace());
       }
-      if(DriverStation.getAlliance()==Alliance.Red){x.relativeTo(new Pose2d(16.534, 8.005, new Rotation2d(Math.PI)));}
+      if(!isBlueAlliance()){x.relativeTo(new Pose2d(16.534, 8.005, new Rotation2d(Math.PI)));}
       return x;
     }
     public static Trajectory getBackOnToScale(){
@@ -92,12 +92,12 @@ public final class Constants {
       }catch(IOException ex){
         DriverStation.reportError("Unable to open trajectory: " + "paths/backontoscale.wpilib.json", ex.getStackTrace());
       }
-      if(DriverStation.getAlliance()==Alliance.Red){x.relativeTo(new Pose2d(16.534, 8.005, new Rotation2d(Math.PI)));}
+      if(!isBlueAlliance()){x.relativeTo(new Pose2d(16.534, 8.005, new Rotation2d(Math.PI)));}
       return x;
     }
   }
   public static class FieldConstants{
-    public static double feildLength=0,feildWidth=0;
+    public static double feildLength=16.534, feildWidth=8.005;
     public static Translation2d getGP0(){return new Translation2d(
         DriverStation.getAlliance()==Alliance.Blue?7.07:feildLength-7.07, .92
       );
