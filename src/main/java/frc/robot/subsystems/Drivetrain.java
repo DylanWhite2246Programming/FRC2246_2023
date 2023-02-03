@@ -96,6 +96,9 @@ public class Drivetrain extends SubsystemBase {
     tab.addDouble("l2 Temp", l2::getMotorTemperature);
     tab.addDouble("r1 Temp", r1::getMotorTemperature);
     tab.addDouble("r2 Temp", r2::getMotorTemperature);
+
+    tab.addDouble("X Velocity", ()->getChassisSpeed().vxMetersPerSecond);
+    tab.addDouble("Rot Velocity", ()->getChassisSpeed().omegaRadiansPerSecond);
   }
 
   /**

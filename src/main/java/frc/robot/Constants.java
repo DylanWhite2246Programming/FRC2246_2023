@@ -32,7 +32,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  static boolean isBlueAlliance(){return DriverStation.getAlliance()==Alliance.Blue;}
+  public static boolean isBlueAlliance(){return DriverStation.getAlliance()==Alliance.Blue;}
   public static boolean autonSuccessful = false;
   public static final int[] pressure = new int[]{75,90};
   public static class Ports{
