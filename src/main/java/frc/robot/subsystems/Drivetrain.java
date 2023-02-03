@@ -21,6 +21,8 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.AutonConstants;
@@ -38,6 +40,7 @@ public class Drivetrain extends SubsystemBase {
   private static double maxOutput = OperatorConstants.kNormalSpeed;
   private static double rotateScalar = OperatorConstants.normalRotateSpeed;
 
+  ShuffleboardTab tab = Shuffleboard.getTab("Telemetry Tab");
 
   private static DifferentialDriveKinematics kinematics;
   private static DifferentialDriveOdometry odometry;
@@ -88,6 +91,11 @@ public class Drivetrain extends SubsystemBase {
     //invert left side
     l1.setInverted(true);
     r1.setInverted(false);
+
+    tab.addDouble("l1 Temp", l1::getMotorTemperature);
+    tab.addDouble("l2 Temp", l2::getMotorTemperature);
+    tab.addDouble("r1 Temp", r1::getMotorTemperature);
+    tab.addDouble("r2 Temp", r2::getMotorTemperature);
   }
 
   /**

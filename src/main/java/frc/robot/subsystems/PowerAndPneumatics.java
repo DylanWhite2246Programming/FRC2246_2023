@@ -4,10 +4,15 @@
 
 package frc.robot.subsystems;
 
+import java.util.Map;
+
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -19,12 +24,19 @@ public class PowerAndPneumatics extends SubsystemBase {
   private static PowerDistribution pdh;
   private static PneumaticHub ph;
   private static Compressor compressor;
+  ShuffleboardTab mainTab, tab;
 
   /** Creates a new PowerAndPneumatics. */
   public PowerAndPneumatics() {
     pdh = new PowerDistribution(Ports.kPDHCANID, ModuleType.kRev);
     ph = new PneumaticHub(Ports.kPHCANID);
     compressor = ph.makeCompressor();
+    tab = Shuffleboard.getTab("Power and Pneumatics");
+    mainTab = Shuffleboard.getTab("Main Tab");
+    mainTab.addDouble("Preasure", this::getPreasure)
+      .withWidget(BuiltInWidgets.kDial)
+      .withProperties(Map.of("min",0,"max",130));
+    tab.add(pdh).withWidget(BuiltInWidgets.kPowerDistribution);
   }
 
   /**
