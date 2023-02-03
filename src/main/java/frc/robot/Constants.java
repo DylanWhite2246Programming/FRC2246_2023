@@ -78,9 +78,9 @@ public final class Constants {
     public static Trajectory getTaxiPassScale(){
       Trajectory x = new Trajectory();
       try{
-        x = TrajectoryUtil.fromPathweaverJson(Filesystem.getDeployDirectory().toPath().resolve("paths/taxipassscaleblue.wpilib.json"));
+        x = TrajectoryUtil.fromPathweaverJson(Filesystem.getDeployDirectory().toPath().resolve("taxipassscaleblue.wpilib.json"));
       }catch(IOException ex){
-        DriverStation.reportError("Unable to open trajectory: " + "paths/taxipassscaleblue.wpilib.json", ex.getStackTrace());
+        DriverStation.reportError("Unable to open trajectory: taxipassscaleblue.wpilib.json", ex.getStackTrace());
       }
       if(!isBlueAlliance()){x.relativeTo(new Pose2d(16.534, 8.005, new Rotation2d(Math.PI)));}
       return x;
@@ -88,9 +88,9 @@ public final class Constants {
     public static Trajectory getBackOnToScale(){
       Trajectory x = new Trajectory();
       try{
-        x = TrajectoryUtil.fromPathweaverJson(Filesystem.getDeployDirectory().toPath().resolve("paths/backontoscale.wpilib.json"));
+        x = TrajectoryUtil.fromPathweaverJson(Filesystem.getDeployDirectory().toPath().resolve("backontoscaleblue.wpilib.json"));
       }catch(IOException ex){
-        DriverStation.reportError("Unable to open trajectory: " + "paths/backontoscale.wpilib.json", ex.getStackTrace());
+        DriverStation.reportError("Unable to open trajectory: backontoscaleblue.wpilib.json", ex.getStackTrace());
       }
       if(!isBlueAlliance()){x.relativeTo(new Pose2d(16.534, 8.005, new Rotation2d(Math.PI)));}
       return x;
@@ -99,19 +99,19 @@ public final class Constants {
   public static class FieldConstants{
     public static double feildLength=16.534, feildWidth=8.005;
     public static Translation2d getGP0(){return new Translation2d(
-        DriverStation.getAlliance()==Alliance.Blue?7.07:feildLength-7.07, .92
+        isBlueAlliance()?7.07:feildLength-7.07, .92
       );
     }
     public static Translation2d getGP1(){return new Translation2d(
-        DriverStation.getAlliance()==Alliance.Blue?7.07:feildLength-7.07, 2.14
+        isBlueAlliance()?7.07:feildLength-7.07, 2.14
       );
     }
     public static Translation2d getGP2(){return new Translation2d(
-        DriverStation.getAlliance()==Alliance.Blue?7.07:feildLength-7.07, 3.36
+        isBlueAlliance()?7.07:feildLength-7.07, 3.36
       );
     }
     public static Translation2d getGP3(){return new Translation2d(
-        DriverStation.getAlliance()==Alliance.Blue?7.07:feildLength-7.07, 4.59
+        isBlueAlliance()?7.07:feildLength-7.07, 4.59
       );
     }
     private static final double[] pegRowXArray 
