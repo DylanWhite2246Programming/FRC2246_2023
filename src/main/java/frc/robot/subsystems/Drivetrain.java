@@ -20,13 +20,9 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.AutonConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.Ports;
@@ -38,7 +34,7 @@ public class Drivetrain extends SubsystemBase {
   private static CANSparkMax l1,l2,r1,r2;
   private static RelativeEncoder lEncoder, rEncoder;
   private static AHRS navx = new AHRS();  
-  private static DoubleSolenoid brakeSolenoid;
+  //private static DoubleSolenoid brakeSolenoid;
   private static double maxOutput = OperatorConstants.kNormalSpeed;
   private static double rotateScalar = OperatorConstants.normalRotateSpeed;
 
@@ -54,16 +50,17 @@ public class Drivetrain extends SubsystemBase {
     l2 = new CANSparkMax(Ports.kL2CANID, MotorType.kBrushless);
     r1 = new CANSparkMax(Ports.kR1CANID, MotorType.kBrushless);
     r2 = new CANSparkMax(Ports.kR2CANID, MotorType.kBrushless);
-    brakeSolenoid = new DoubleSolenoid(
-      Ports.kPHCANID, 
-      PneumaticsModuleType.REVPH, 
-      Ports.kBrakeForwardPort, 
-      Ports.kBrakeReversePort
-    );
-    brakeSolenoid.set(Value.kReverse);
-    new Trigger(this::getBrake)
-      .onTrue(runOnce(()->maxOutput=0))
-      .onFalse(setNormalSpeed());
+
+    //brakeSolenoid = new DoubleSolenoid(
+    //  Ports.kPHCANID, 
+    //  PneumaticsModuleType.REVPH, 
+    //  Ports.kBrakeForwardPort, 
+    //  Ports.kBrakeReversePort
+    //);
+    //brakeSolenoid.set(Value.kReverse);
+    //new Trigger(this::getBrake)
+    //  .onTrue(runOnce(()->maxOutput=0))
+    //  .onFalse(setNormalSpeed());
 
     lEncoder=l1.getEncoder();
     lEncoder.setPositionConversionFactor(RobotConstruction.kPositionConversionFactor);
@@ -141,10 +138,10 @@ public class Drivetrain extends SubsystemBase {
   public DifferentialDriveKinematics getKinematics(){return kinematics;}
 
   public CommandBase STOP(){return runOnce(()->{l1.stopMotor();r1.stopMotor();});}
-  public CommandBase engageBrake(){return STOP().andThen(runOnce(()->brakeSolenoid.set(Value.kForward)));}
-  public CommandBase disengageBrake(){return runOnce(()->brakeSolenoid.set(Value.kReverse));}
-  /**@return true when brake engaged */
-  public boolean getBrake(){return brakeSolenoid.get()==Value.kForward;}
+  //public CommandBase engageBrake(){return STOP().andThen(runOnce(()->brakeSolenoid.set(Value.kForward)));}
+  //public CommandBase disengageBrake(){return runOnce(()->brakeSolenoid.set(Value.kReverse));}
+  ///**@return true when brake engaged */
+  //public boolean getBrake(){return brakeSolenoid.get()==Value.kForward;}
 
   /**imput should be from -1 to 1 */
   public CommandBase operatorDrive(DoubleSupplier x, DoubleSupplier z){

@@ -48,11 +48,8 @@ public class AutoLevel extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if(!interrupted){
-      this.andThen(drivetrain.engageBrake());
-    }else{
-      this.andThen(drivetrain.STOP());
-    }
+    this.andThen(drivetrain.STOP());
+    //if (!interrupted) this.andThen(drivetrain.engageBrake());
     Constants.autonSuccessful = (!interrupted)&&isLevel();
   }
 
