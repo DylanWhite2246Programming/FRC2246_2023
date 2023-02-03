@@ -36,7 +36,6 @@ public final class Constants {
   public static final int[] pressure = new int[]{75,90};
   public static class Ports{
     //CANID
-    public static final int kPHCANID = 0;
     public static final int kL1CANID = 1;
     public static final int kL2CANID = 2;
     public static final int kR1CANID = 3;
@@ -44,6 +43,7 @@ public final class Constants {
     public static final int kArmMotor1Port = 5;
     public static final int kArmMotor2Port = 6;
     public static final int kPDHCANID = 7;
+    public static final int kPHCANID = 8;
     //PWN
     public static final int kLedPort = 0;
     //DIO

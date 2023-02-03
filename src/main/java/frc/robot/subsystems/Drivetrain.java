@@ -79,7 +79,7 @@ public class Drivetrain extends SubsystemBase {
       getRotation2d(), 
       getLeftDistance(),
       getRightDistance(), 
-      getPose2d()
+      odometry.getPoseMeters()
     );
       
     //zero yaw for beginning of match
@@ -87,7 +87,7 @@ public class Drivetrain extends SubsystemBase {
     l2.follow(l1); r2.follow(r1);
     //invert left side
     l1.setInverted(true);
-    lEncoder.setInverted(true);
+    r1.setInverted(false);
   }
 
   /**
