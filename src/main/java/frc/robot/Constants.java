@@ -32,6 +32,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  static boolean isBlueAlliance(){return DriverStation.getAlliance()==Alliance.Blue;}
   public static boolean autonSuccessful = false;
   public static final int[] pressure = new int[]{75,90};
   public static class Ports{
@@ -122,17 +123,18 @@ public final class Constants {
      * @param column the column the peg is in 0 is closest to the wall
      * @return the translation of the peg using the global position origin
      */
-    public static Translation2d getPeg(int row, int column){
+    public static Pose2d getPeg(int row, int column){
       double x = pegRowXArray[row];
+      Rotation2d rot = new Rotation2d();
       //if red alliance change the pegs to the other side of the field
-      if(DriverStation.getAlliance()==Alliance.Red){x=feildLength-x;}
-      return new Translation2d(x, pegColumnYArray[column]);
+      if(!isBlueAlliance()){x=feildLength-x;rot=Rotation2d.fromDegrees(180);}
+      return new Pose2d(x, pegColumnYArray[column], rot);
     }
-    public static Translation2d choosePeg(int row, Pose2d robotPose){
-      int choosenPeg=0; double shortestDistance=-1;
+    public static Pose2d choosePeg(int row, Pose2d robotPose){
+      int choosenPeg=0; double shortestDistance=Integer.MAX_VALUE;
       for(int i=0;i<=5;i++){
-        if(robotPose.getTranslation().getDistance(getPeg(row, i))<shortestDistance||shortestDistance==-1){
-          shortestDistance=robotPose.getTranslation().getDistance(getPeg(row, i));
+        if(robotPose.getTranslation().getDistance(getPeg(row, i).getTranslation())<shortestDistance){
+          shortestDistance=robotPose.getTranslation().getDistance(getPeg(row, i).getTranslation());
         }
       }
       return getPeg(row, choosenPeg);
@@ -141,17 +143,18 @@ public final class Constants {
       = new double[]{.286,.505};
     private static final double[] shelfColumnYArray
       = new double[]{1.07,2.743,4.42};
-    public static Translation2d getShelf(int row, int column){
+    public static Pose2d getShelf(int row, int column){
       double x = shelfRowXArray[row];
+      Rotation2d rot= new Rotation2d();
       //if red alliance change the pegs to the other side of the field
-      if(DriverStation.getAlliance()==Alliance.Red){x=feildLength-x;}
-      return new Translation2d(x, shelfColumnYArray[column]);
+      if(!isBlueAlliance()){x=feildLength-x;rot=Rotation2d.fromDegrees(180);}
+      return new Pose2d(x, shelfColumnYArray[column], rot);
     }
-    public static Translation2d chooseShelf(int row, Pose2d robotPose){
+    public static Pose2d chooseShelf(int row, Pose2d robotPose){
       int choosenShelf=0; double shortestDistance=-1;
       for(int i=0;i<=2;i++){
-        if(robotPose.getTranslation().getDistance(getShelf(row, i))<shortestDistance||shortestDistance==-1){
-          shortestDistance=robotPose.getTranslation().getDistance(getShelf(row, i));
+        if(robotPose.getTranslation().getDistance(getShelf(row, i).getTranslation())<shortestDistance||shortestDistance==-1){
+          shortestDistance=robotPose.getTranslation().getDistance(getShelf(row, i).getTranslation());
         }
       }
       return getShelf(row, choosenShelf);

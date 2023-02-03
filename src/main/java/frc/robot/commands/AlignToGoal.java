@@ -8,18 +8,15 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.FieldConstants;
-import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.Drivetrain;
 
 public class AlignToGoal extends CommandBase {
   Drivetrain drivetrain;
   int goalType, row; DoubleSupplier mag;
-  Translation2d choosenGoalPose;
+  Pose2d choosenGoalPose;
   PIDController turnController = new PIDController(.1, 0, 0); //TODO tune
   /** Creates a new AlignToGoal. */
   public AlignToGoal(
@@ -43,7 +40,7 @@ public class AlignToGoal extends CommandBase {
     }else if(goalType == 1){
       choosenGoalPose = FieldConstants.chooseShelf(row, drivetrain.getPose2d());
     }else{
-      choosenGoalPose = new Translation2d();
+      choosenGoalPose = new Pose2d();
       System.out.println("you werent suposed to get here");
     }
   }
@@ -54,7 +51,7 @@ public class AlignToGoal extends CommandBase {
     //use swerve module state optomization to enusre robot alligns relative to direction
     //when entering scoring area
     var delta = SwerveModuleState.optimize(
-      new SwerveModuleState(0, new Pose2d(choosenGoalPose, new Rotation2d()).relativeTo(drivetrain.getPose2d()).getRotation()), 
+      new SwerveModuleState(0, choosenGoalPose.relativeTo(drivetrain.getPose2d()).getRotation()), 
       drivetrain.getPose2d().getRotation()
     ).angle.getRadians();
 
