@@ -25,7 +25,6 @@ public class PowerAndPneumatics extends SubsystemBase {
     pdh = new PowerDistribution(Ports.kPDHCANID, ModuleType.kRev);
     ph = new PneumaticHub(Ports.kPHCANID);
     compressor = ph.makeCompressor();
-
   }
 
   /**

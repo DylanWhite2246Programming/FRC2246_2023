@@ -78,7 +78,7 @@ public final class Constants {
     public static Trajectory getTaxiPassScale(){
       Trajectory x = new Trajectory();
       try{
-        x = TrajectoryUtil.fromPathweaverJson(Filesystem.getDeployDirectory().toPath().resolve("taxipassscaleblue.wpilib.json"));
+        x = TrajectoryUtil.fromPathweaverJson(Filesystem.getDeployDirectory().toPath().resolve("output/taxipassscaleblue.wpilib.json"));
       }catch(IOException ex){
         DriverStation.reportError("Unable to open trajectory: taxipassscaleblue.wpilib.json", ex.getStackTrace());
       }
@@ -88,7 +88,7 @@ public final class Constants {
     public static Trajectory getBackOnToScale(){
       Trajectory x = new Trajectory();
       try{
-        x = TrajectoryUtil.fromPathweaverJson(Filesystem.getDeployDirectory().toPath().resolve("backontoscaleblue.wpilib.json"));
+        x = TrajectoryUtil.fromPathweaverJson(Filesystem.getDeployDirectory().toPath().resolve("output/backontoscaleblue.wpilib.json"));
       }catch(IOException ex){
         DriverStation.reportError("Unable to open trajectory: backontoscaleblue.wpilib.json", ex.getStackTrace());
       }
