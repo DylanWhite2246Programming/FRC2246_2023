@@ -6,15 +6,13 @@ package frc.robot.subsystems;
 
 import java.util.Map;
 
+import java.util.Map;
+
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -26,8 +24,6 @@ public class PowerAndPneumatics extends SubsystemBase {
   private static PowerDistribution pdh;
   private static PneumaticHub ph;
   private static Compressor compressor;
-  private ShuffleboardTab pptab = Shuffleboard.getTab("Power and Pneumatics");
-  private ShuffleboardTab mtab = Shuffleboard.getTab("Main");
 
   /** Creates a new PowerAndPneumatics. */
   public PowerAndPneumatics() {
@@ -35,10 +31,6 @@ public class PowerAndPneumatics extends SubsystemBase {
     ph = new PneumaticHub(Ports.kPHCANID);
     compressor = ph.makeCompressor();
 
-    pptab.add("PDH",pdh).withWidget(BuiltInWidgets.kPowerDistribution);
-    pptab.addDouble("Preasure", this::getPreasure)
-      .withWidget(BuiltInWidgets.kDial)
-      .withProperties(Map.of("min",0,"max",130));
   }
 
   /**

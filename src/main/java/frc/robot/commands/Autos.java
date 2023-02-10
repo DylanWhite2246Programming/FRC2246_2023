@@ -91,7 +91,7 @@ public final class Autos {
       arm.openClaw(),
       ramseteCommandGenerator(drivetrain, DriverStation.getAlliance()==Alliance.Blue?new Trajectory():new Trajectory())//move to center field
     );
-  }
+  } 
   public static CommandBase oneGamePieceAndLevel(Drivetrain drivetrain, Arm arm){
     return new SequentialCommandGroup(
       arm.moveToBackTopPosition(),

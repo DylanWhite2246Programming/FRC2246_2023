@@ -10,13 +10,14 @@ import frc.robot.commands.AutoLevel;
 import frc.robot.commands.Autos;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Leds;
+import frc.robot.subsystems.PowerAndPneumatics;
 import frc.robot.subsystems.Vision;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -41,6 +42,8 @@ public class RobotContainer {
   private static final Vision vision = new Vision();
   private static final Drivetrain drivetrain = new Drivetrain();
   private static final Arm arm = new Arm();
+  private static final PowerAndPneumatics pp = new PowerAndPneumatics();
+  private static final Leds leds = new Leds();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -52,7 +55,7 @@ public class RobotContainer {
     autonChooser.addOption("3 gp right", Autos.threeGamePieces(drivetrain, arm));
     autonChooser.addOption("1 gp and balance", Autos.oneGamePieceAndLevel(drivetrain, arm));
 
-    mainTab.add(autonChooser).withSize(2, 1);
+    mainTab.add("Auton Chooser",autonChooser).withSize(2, 1);
 
     //drivetrain.setDefaultCommand(
     //  drivetrain.operatorDrive(
@@ -96,8 +99,8 @@ public class RobotContainer {
   }
 
   public void onTeleopInit(){
-    if(Constants.autonSuccessful){new WaitCommand(3).andThen(drivetrain.disengageBrake());}
-    else{drivetrain.disengageBrake();}
+    //if(Constants.autonSuccessful){new WaitCommand(3).andThen(drivetrain.disengageBrake());}
+    //else{drivetrain.disengageBrake();}
   }
 
   public void updatePose(){
