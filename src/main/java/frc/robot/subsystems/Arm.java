@@ -29,8 +29,8 @@ public class Arm extends ProfiledPIDSubsystem {
   private static DoubleSolenoid clawSolenoid = new DoubleSolenoid(
     Ports.kPHCANID,
     PneumaticsModuleType.REVPH, 
-    Ports.kCubeClawForwardPort, 
-    Ports.kCubeClawReversePort
+    Ports.kClawForwardPort, 
+    Ports.kClawReversePort
   );
   private static DoubleSolenoid extentionSolenoid = new DoubleSolenoid(
     Ports.kPHCANID,

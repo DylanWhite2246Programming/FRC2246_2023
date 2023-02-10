@@ -54,12 +54,12 @@ public class RobotContainer {
 
     mainTab.add(autonChooser).withSize(2, 1);
 
-    drivetrain.setDefaultCommand(
-      drivetrain.operatorDrive(
-        ()->drivestation.getLeftY()*OperatorConstants.kRobotTopSpeed, 
-        ()->drivestation.getRightX()*Math.PI*2
-      )
-    );
+    //drivetrain.setDefaultCommand(
+    //  drivetrain.operatorDrive(
+    //    ()->drivestation.getLeftY()*OperatorConstants.kRobotTopSpeed, 
+    //    ()->drivestation.getRightX()*Math.PI*2
+    //  )
+    //);
 
     // Configure the trigger bindings
     configureBindings();

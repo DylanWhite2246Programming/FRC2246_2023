@@ -82,7 +82,7 @@ public class Drivetrain extends SubsystemBase {
       getRotation2d(), 
       getLeftDistance(),
       getRightDistance(), 
-      getPose2d()
+      odometry.getPoseMeters()
     );
       
     //zero yaw for beginning of match
