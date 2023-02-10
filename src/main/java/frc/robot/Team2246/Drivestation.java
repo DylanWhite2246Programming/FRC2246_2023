@@ -15,10 +15,10 @@ public class Drivestation extends SubsystemBase {
 
   /** Creates a new Drivestation. */
   public Drivestation(
-    int bbaPort, 
-    int bbbPort, 
     int lJoyPort, 
-    int rJoyPort
+    int rJoyPort,
+    int bbaPort, 
+    int bbbPort 
   ) {
     buttonboardA = new GenericHID(bbaPort);
     buttonboardB = new GenericHID(bbbPort);

@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 import org.photonvision.EstimatedRobotPose;
@@ -35,12 +36,7 @@ public class Vision extends SubsystemBase {
     }catch(IOException ex){
       DriverStation.reportError("Unable to open Feild Layout", ex.getStackTrace());
     }
-    poseEstimator = new PhotonPoseEstimator(
-      fieldLayout, 
-      PoseStrategy.CLOSEST_TO_REFERENCE_POSE, 
-      cam, 
-      RobotConstruction.kRobotToCam
-    );
+    poseEstimator = new PhotonPoseEstimator(fieldLayout, PoseStrategy.CLOSEST_TO_LAST_POSE, cam, RobotConstruction.kRobotToCam);
   }
 
   /** 

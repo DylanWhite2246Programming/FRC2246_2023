@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -57,12 +58,14 @@ public class RobotContainer {
 
     mainTab.add("Auton Chooser",autonChooser).withSize(2, 1);
 
-    //drivetrain.setDefaultCommand(
-    //  drivetrain.operatorDrive(
-    //    ()->drivestation.getLeftY()*OperatorConstants.kRobotTopSpeed, 
-    //    ()->drivestation.getRightX()*Math.PI*2
-    //  )
-    //);
+    drivetrain.setDefaultCommand(
+        new RunCommand(()-> drivetrain.tempDrive(
+        //()->drivestation.getLeftY()*OperatorConstants.kRobotTopSpeed, 
+        drivestation.getLeftY(), 
+        drivestation.getRightX()
+        //()->drivestation.getRightX()*Math.PI*2
+      ), drivetrain)
+    );
 
     // Configure the trigger bindings
     configureBindings();
@@ -101,6 +104,10 @@ public class RobotContainer {
   public void onTeleopInit(){
     //if(Constants.autonSuccessful){new WaitCommand(3).andThen(drivetrain.disengageBrake());}
     //else{drivetrain.disengageBrake();}
+  }
+
+  public void periodic(){
+    //System.out.println(drivestation.getLeftY());
   }
 
   public void updatePose(){

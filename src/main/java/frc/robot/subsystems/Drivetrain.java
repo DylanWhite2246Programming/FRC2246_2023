@@ -21,6 +21,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -33,7 +34,10 @@ import frc.robot.Constants.RobotConstruction;
 import org.photonvision.EstimatedRobotPose;
 
 public class Drivetrain extends SubsystemBase {
-  private static CANSparkMax l1,l2,r1,r2;
+  private static CANSparkMax l1 = new CANSparkMax(Ports.kL1CANID, MotorType.kBrushless);
+  private static CANSparkMax l2 = new CANSparkMax(Ports.kL2CANID, MotorType.kBrushless);
+  private static CANSparkMax r1 = new CANSparkMax(Ports.kR1CANID, MotorType.kBrushless);
+  private static CANSparkMax r2 = new CANSparkMax(Ports.kR2CANID, MotorType.kBrushless);
   private static RelativeEncoder lEncoder, rEncoder;
   private static AHRS navx = new AHRS();  
   //private static DoubleSolenoid brakeSolenoid;
@@ -46,14 +50,10 @@ public class Drivetrain extends SubsystemBase {
   private static DifferentialDriveOdometry odometry;
   private static DifferentialDrivePoseEstimator drivePoseEstimator;
 
+  private static DifferentialDrive drive = new DifferentialDrive(l1, r1);
+
   /** Creates a new ExampleSubsystem. */
   public Drivetrain() {
-    //define variables
-    l1 = new CANSparkMax(Ports.kL1CANID, MotorType.kBrushless);
-    l2 = new CANSparkMax(Ports.kL2CANID, MotorType.kBrushless);
-    r1 = new CANSparkMax(Ports.kR1CANID, MotorType.kBrushless);
-    r2 = new CANSparkMax(Ports.kR2CANID, MotorType.kBrushless);
-
     //brakeSolenoid = new DoubleSolenoid(
     //  Ports.kPHCANID, 
     //  PneumaticsModuleType.REVPH, 
@@ -91,6 +91,8 @@ public class Drivetrain extends SubsystemBase {
     //invert left side
     l1.setInverted(true);
     r1.setInverted(false);
+
+    drive.setMaxOutput(1);
 
     tab.addDouble("l1 Temp", l1::getMotorTemperature);
     tab.addDouble("l2 Temp", l2::getMotorTemperature);
@@ -181,6 +183,13 @@ public class Drivetrain extends SubsystemBase {
     );
   }
 
+
+  public void tempDrive(double x, double z){drive.arcadeDrive(x, z);}
+
+  //public CommandBase tempDrive(DoubleSupplier x, DoubleSupplier z){
+  //  return run(()->{drive.arcadeDrive(x.getAsDouble(), z.getAsDouble());});
+  //}
+
   public CommandBase setFullSpeed(){return runOnce(()->{
     maxOutput = OperatorConstants.kRobotTopSpeed;
     rotateScalar = OperatorConstants.kSlowRotateSpeed;
@@ -206,6 +215,7 @@ public class Drivetrain extends SubsystemBase {
     // This method will be called once per scheduler run
     //update odometry
     odometry.update(getRotation2d(), getLeftDistance(), getRightDistance());
+    drive.feed();
   }
 
   public void updateOdometry(Vision vision) {
